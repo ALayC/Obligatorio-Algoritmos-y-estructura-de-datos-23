@@ -6,7 +6,7 @@ public class Medico {
     private int codMedico;
     private int tel;
     private int especialidad;
-
+    
     public Medico(String elNombre, int elCod, int elTel, int laEspecialida) {
         this.setNombre(elNombre);
         this.setCodMedico(elCod);
