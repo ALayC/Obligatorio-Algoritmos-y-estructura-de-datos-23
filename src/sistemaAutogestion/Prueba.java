@@ -17,7 +17,9 @@ public class Prueba {
         System.out.println("");
         System.out.println("---------------------------------------------------------------------");
         System.out.println();
+
         System.out.println("Test2 con track a masterorigin");
+
         if (tr.equals(RetornoEsperado)) {
             cantCorrectas++;
         } else {
