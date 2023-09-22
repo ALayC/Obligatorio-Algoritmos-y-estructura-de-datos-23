@@ -8,7 +8,7 @@ public class Paciente {
   private int ci;
   private String direccion;
 
-  
+
   public Paciente(String elNombre, int laCi, String laDirec){
       this.setNombre(elNombre);
       this.setCi(laCi);
