@@ -10,11 +10,15 @@ public class Main {
         Prueba p = new Prueba();
         Sistema s = new Sistema();
 
-        p2_registrarMedico(p, s);
+        //p2_registrarMedico(p, s);
         p4_registrarPaciente(p, s);
-        ListaMedicos(p, s);
+       // ListaMedicos(p, s);
+       // p2_3_eliminarMedico(p, s);
+         //ListaMedicos(p, s);
         ListarPacientes(p, s);
-        p.imprimirResultadosPrueba();
+        p2_5_eliminarPaciente(p,s);
+        ListarPacientes(p, s);
+        //p.imprimirResultadosPrueba();
     }
 
     public static void p1_crearSistema(Prueba p, Sistema s) {
@@ -49,4 +53,20 @@ public class Main {
     public static void ListarPacientes(Prueba p, Sistema s) {
         p.ver(s.listarPacientes().resultado, Retorno.Resultado.OK, "Se lista los pacientes");
     }
+    
+    public static void p2_3_eliminarMedico(Prueba p, Sistema s) {
+    p.ver(s.eliminarMedico(100).resultado, Retorno.Resultado.ERROR_1, "Este medico no existe");
+    p.ver(s.eliminarMedico(2).resultado, Retorno.Resultado.OK, "Se elimina el medico");
+    p.ver(s.eliminarMedico(2).resultado, Retorno.Resultado.ERROR_1, "Este medico no existe");
+    }
+    
+    public static void p2_5_eliminarPaciente(Prueba p, Sistema s){
+        p.ver(s.eliminarPaciente(100).resultado, Retorno.Resultado.ERROR_1, "Este paciente no existe");
+        p.ver(s.eliminarPaciente(12345678).resultado, Retorno.Resultado.OK, "Se elimina paciente");
+        p.ver(s.eliminarPaciente(12345678).resultado, Retorno.Resultado.ERROR_1, "Este paciente no existe");
+    
+    }
+
+    
+    
 }
