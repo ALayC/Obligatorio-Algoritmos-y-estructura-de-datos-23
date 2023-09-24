@@ -1,12 +1,16 @@
 package clases;
 
-public class Medico {
+import tads.ListaN;
+import tads.*;
+
+public class Medico implements Comparable<Medico> {
 
     private String nombre;
     private int codMedico;
     private int tel;
     private int especialidad;
-  
+    private ListaN listaConsultas;
+
     public Medico(String elNombre, int elCod, int elTel, int laEspecialida) {
         this.setNombre(elNombre);
         this.setCodMedico(elCod);
@@ -82,5 +86,17 @@ public class Medico {
             return es;
         }
         return es;
+    }
+
+    @Override
+    public int compareTo(Medico o) {
+   // return Integer.compare(this.codMedico, o.codMedico);
+    return this.getNombre().compareTo(o.getNombre());
+
+    }
+    
+    @Override
+   public String toString() {
+        return "Medico: " + nombre + "\nCodigo: " + codMedico + "\nEspecialidad: " + especialidad + "\n";
     }
 }
