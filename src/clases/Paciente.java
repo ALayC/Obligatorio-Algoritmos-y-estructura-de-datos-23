@@ -2,13 +2,13 @@
 package clases;
 
 
-public class Paciente {
+public class Paciente implements Comparable<Paciente> {
     
   private String nombre;
   private int ci;
   private String direccion;
 
-
+  
   public Paciente(String elNombre, int laCi, String laDirec){
       this.setNombre(elNombre);
       this.setCi(laCi);
@@ -55,4 +55,29 @@ public class Paciente {
     public void setDireccion(String direccion) {
         this.direccion = direccion;
     }
+
+    @Override
+    public int compareTo(Paciente o) {
+            return Integer.compare(this.ci, o.ci);
+
+    }
+    
+     
+    @Override
+    public boolean equals(Object obj) {
+        Paciente pc = (Paciente) obj;
+        boolean es = false;
+
+        if (this.ci == pc.ci) {
+            es=true;
+            return es;
+        }
+        return es;
+    }
+
+      @Override
+   public String toString() {
+        return "Paciente: " + nombre + "\nCedula: " + ci + "\nDireccion: " + direccion + "\n";
+    }
+    
 }
