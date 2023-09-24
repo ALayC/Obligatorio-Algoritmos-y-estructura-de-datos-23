@@ -12,9 +12,9 @@ public class Main {
 
         //p2_registrarMedico(p, s);
         p4_registrarPaciente(p, s);
-       // ListaMedicos(p, s);
-       // p2_3_eliminarMedico(p, s);
-         //ListaMedicos(p, s);
+        //ListaMedicos(p, s);
+        //p2_3_eliminarMedico(p, s);
+        // ListaMedicos(p, s);
         ListarPacientes(p, s);
         p2_5_eliminarPaciente(p,s);
         ListarPacientes(p, s);
