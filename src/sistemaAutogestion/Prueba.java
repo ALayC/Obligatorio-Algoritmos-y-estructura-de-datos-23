@@ -1,6 +1,13 @@
 package sistemaAutogestion;
 
 import sistemaAutogestion.Retorno.Resultado;
+import static sistemaAutogestion.Retorno.Resultado.ERROR_1;
+import static sistemaAutogestion.Retorno.Resultado.ERROR_2;
+import static sistemaAutogestion.Retorno.Resultado.ERROR_3;
+import static sistemaAutogestion.Retorno.Resultado.ERROR_4;
+import static sistemaAutogestion.Retorno.Resultado.ERROR_5;
+import static sistemaAutogestion.Retorno.Resultado.NO_IMPLEMENTADA;
+import static sistemaAutogestion.Retorno.Resultado.OK;
 
 public class Prueba {
 
@@ -17,8 +24,6 @@ public class Prueba {
         System.out.println("");
         System.out.println("---------------------------------------------------------------------");
         System.out.println();
-
-        System.out.println("Test2 con track a masterorigin");
 
         if (tr.equals(RetornoEsperado)) {
             cantCorrectas++;
