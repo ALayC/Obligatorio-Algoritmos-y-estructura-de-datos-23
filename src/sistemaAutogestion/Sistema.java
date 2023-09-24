@@ -1,8 +1,21 @@
 package sistemaAutogestion;
 
+import clases.*;
 import java.util.Date;
+import tads.*;
 
 public class Sistema implements IObligatorio {
+
+    private ListaN<Medico> listaMedico;
+    private ListaN<Paciente> listaPaciente;
+    private ListaN<Reserva> listaReserva;
+
+    public Sistema() {
+        listaMedico = new ListaN();
+        listaPaciente = new ListaN();
+        listaReserva = new ListaN();
+
+    }
 
     @Override
     public Retorno crearSistemaDeAutogestion(int maxPacientesporMedico) {
@@ -19,19 +32,43 @@ public class Sistema implements IObligatorio {
     public Retorno registrarMedico(String nombre, int codMedico, int tel, int especialidad) {
         Retorno r = new Retorno(Retorno.Resultado.NO_IMPLEMENTADA);
 
-        
-        
+        Medico mAux = new Medico(nombre, codMedico, tel, especialidad);
+        // Primero, verificamos si el médico ya existe en la lista.
+        if (listaMedico.existeElemento(mAux)) {
+            r.resultado = Retorno.Resultado.ERROR_1;
+        } // Luego, verificamos el rango de la especialidad.
+        else if (especialidad < 1 || especialidad > 20) {
+            r.resultado = Retorno.Resultado.ERROR_2;
+        } // Si no hay errores, entonces agregamos el médico a la lista.
+        else {
+            listaMedico.agregarOrdenado(mAux);
+            r.resultado = Retorno.Resultado.OK;
+        }
+
         return r;
     }
 
     @Override
     public Retorno eliminarMedico(int codMedico) {
+
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+
     }
 
     @Override
     public Retorno agregarPaciente(String nombre, int CI, String direccion) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        Retorno r = new Retorno(Retorno.Resultado.NO_IMPLEMENTADA);
+
+        Paciente pAux = new Paciente(nombre, CI, direccion);
+
+        if (listaPaciente.existeElemento(pAux)) {
+            r.resultado = Retorno.Resultado.ERROR_1;
+        } else {
+            listaPaciente.agregarFinal(pAux);
+            r.resultado = Retorno.Resultado.OK;
+        }
+
+        return r;
     }
 
     @Override
@@ -42,6 +79,7 @@ public class Sistema implements IObligatorio {
     @Override
     public Retorno reservaConsulta(int codMedico, int ciPaciente, Date fecha) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+
     }
 
     @Override
@@ -66,12 +104,18 @@ public class Sistema implements IObligatorio {
 
     @Override
     public Retorno listarMédicos() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        listaMedico.mostrar();
+        Retorno r = new Retorno(Retorno.Resultado.OK);
+        return r;
+
     }
 
     @Override
     public Retorno listarPacientes() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        listaPaciente.mostrar();
+        Retorno r = new Retorno(Retorno.Resultado.OK);
+        return r;
+
     }
 
     @Override
