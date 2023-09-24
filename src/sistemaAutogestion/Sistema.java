@@ -50,9 +50,16 @@ public class Sistema implements IObligatorio {
 
     @Override
     public Retorno eliminarMedico(int codMedico) {
+        Retorno r = new Retorno(Retorno.Resultado.NO_IMPLEMENTADA);
+        Medico medicoAEliminar = new Medico("", codMedico, 0, 0); // Creamos un objeto médico 'dummy' solo para la comparación basada en codMedico.
 
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-
+        if (listaMedico.existeElemento(medicoAEliminar)) {
+            listaMedico.eliminarElemento(medicoAEliminar);
+            r.resultado = Retorno.Resultado.OK; 
+        } else {
+            r.resultado = Retorno.Resultado.ERROR_1; 
+        }
+        return r;
     }
 
     @Override
@@ -73,7 +80,16 @@ public class Sistema implements IObligatorio {
 
     @Override
     public Retorno eliminarPaciente(int CI) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+                Retorno r = new Retorno(Retorno.Resultado.NO_IMPLEMENTADA);
+        Paciente pacienteAEliminar = new Paciente("", CI,""); 
+
+        if (listaPaciente.existeElemento(pacienteAEliminar)) {
+            listaPaciente.eliminarElemento(pacienteAEliminar);
+            r.resultado = Retorno.Resultado.OK; 
+        } else {
+            r.resultado = Retorno.Resultado.ERROR_1; 
+        }
+        return r;
     }
 
     @Override
