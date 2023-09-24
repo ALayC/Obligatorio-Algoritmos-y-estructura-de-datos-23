@@ -2,7 +2,7 @@ package tads;
 
 import clases.*;
 
-public class ListaN<T> implements IListaSimple<T> {
+public class ListaN<T extends Comparable<T>> implements IListaSimple<T> {
 
     private Nodo inicio;
     private Nodo fin;
@@ -138,9 +138,80 @@ public class ListaN<T> implements IListaSimple<T> {
 
     @Override
     public void agregarOrdenado(T n) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+         if(esVacia() || inicio.getDato().compareTo(n) >= 0){
+            this.agregarInicio(n);
+        }
+        else{
+        
+            Nodo aux = inicio;
+            
+            while(aux.getSiguiente()!=null && aux.getSiguiente().getDato().compareTo(n) < 0){
+                aux = aux.getSiguiente();
+            }
+            
+            if(aux.getSiguiente() == null){
+                this.agregarFinal(n);
+            }
+            else{
+            
+                Nodo nuevo = new Nodo(n);
+                nuevo.setSiguiente(aux.getSiguiente());
+                aux.setSiguiente(nuevo);
+                cantidad++;
+
+            }
+        
+        }
+        
     }
 
+   
+    
+
+    @Override
+    public boolean existeElemento(T n) {
+        
+        boolean existe = false;
+        Nodo aux=inicio;
+        
+        while( aux!=null && !existe ){
+            if (aux.getDato().equals(n)){
+                existe=true;
+            }
+                aux=aux.getSiguiente();
+        }
+        return existe;
+    }
+
+    @Override
+    public void eliminarElemento(T n) {
+    
+     if (!esVacia()) {
+            if (inicio.getDato().equals(n)) {
+                this.borrarInicio();
+            } else {
+
+                Nodo aux = inicio;
+
+                while (aux.getSiguiente() != null && !aux.getSiguiente().getDato().equals(n)) {
+                    aux = aux.getSiguiente();
+                }
+                
+                if(aux.getSiguiente()!=null){ //Encontre el elemento
+                    
+                    Nodo aBorrar = aux.getSiguiente();
+                    aux.setSiguiente(aBorrar.getSiguiente());
+                    aBorrar.setSiguiente(null);
+                    cantidad--;
+                    
+                }
+
+            }
+
+        }
+
+    }
+    
     
 
 }
