@@ -48,5 +48,6 @@ public class Main {
 
     public static void ListarPacientes(Prueba p, Sistema s) {
         p.ver(s.listarPacientes().resultado, Retorno.Resultado.OK, "Se lista los pacientes");
+        
     }
 }
