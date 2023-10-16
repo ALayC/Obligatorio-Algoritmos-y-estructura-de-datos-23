@@ -52,6 +52,7 @@ public class Main {
 
     public static void ListarPacientes(Prueba p, Sistema s) {
         p.ver(s.listarPacientes().resultado, Retorno.Resultado.OK, "Se lista los pacientes");
+        
     }
     
     public static void p2_3_eliminarMedico(Prueba p, Sistema s) {
