@@ -26,6 +26,7 @@ public class Medico implements Comparable<Medico> {
     private int especialidad;
     private ListaN listaConsultas;
     private Cola<Paciente> listaDeEspera;
+    private ListaN<LocalDate> diasDeConsulta;
 
     public Medico(String elNombre, int elCod, int elTel, int laEspecialida) {
         this.setNombre(elNombre);
@@ -34,6 +35,25 @@ public class Medico implements Comparable<Medico> {
         this.setEspecialidad(laEspecialida);
         this.listaDeEspera = new Cola<>();
         this.listaConsultas = new ListaN();
+        this.diasDeConsulta = new ListaN<>();
+    }
+
+    public ListaN<LocalDate> getDiasDeConsulta() {
+        return diasDeConsulta;
+    }
+
+    public void agregarDiaDeConsulta(LocalDate fecha) {
+        this.diasDeConsulta.agregarFinal(fecha);
+    }
+
+    public boolean atiendeEnFecha(LocalDate fecha) {
+        for (int i = 0; i < getDiasDeConsulta().cantElementos(); i++) {
+            LocalDate diaDeConsulta = getDiasDeConsulta().obtenerElemento(i);
+            if (diaDeConsulta.equals(fecha)) {
+                return true;
+            }
+        }
+        return false;
     }
 
     public int cantElementosParaFecha(LocalDate fecha) {
@@ -59,7 +79,7 @@ public class Medico implements Comparable<Medico> {
         return false;
     }
 
-    public Cola<Paciente> getListaDeEspera() {
+    public Cola<Paciente> getColaDeEspera() {
         return listaDeEspera;
     }
 

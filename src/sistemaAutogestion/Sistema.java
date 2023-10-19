@@ -36,6 +36,29 @@ public class Sistema implements IObligatorio {
         return r;
     }
 
+    public Retorno agregarDiaDeConsultaMedico(int codMedico, LocalDate fecha) {
+        Retorno r = new Retorno(Retorno.Resultado.NO_IMPLEMENTADA);
+
+        Medico medicoAux = obtenerMedicoPorCodigo(codMedico);
+
+        // Verificamos si el médico existe
+        if (medicoAux == null) {
+            r.resultado = Retorno.Resultado.ERROR_1;
+            return r;
+        }
+
+        // Si el médico ya atiende en esa fecha
+        if (medicoAux.atiendeEnFecha(fecha)) {
+            r.resultado = Retorno.Resultado.ERROR_2;  // Aquí, ERROR_2 podría significar "El médico ya atiende en esa fecha"
+            return r;
+        }
+
+        medicoAux.agregarDiaDeConsulta(fecha);
+        r.resultado = Retorno.Resultado.OK;
+
+        return r;
+    }
+
     @Override
     public Retorno registrarMedico(String nombre, int codMedico, int tel, int especialidad) {
         Retorno r = new Retorno(Retorno.Resultado.NO_IMPLEMENTADA);
@@ -104,7 +127,6 @@ public class Sistema implements IObligatorio {
         for (int i = 0; i < listaMedico.cantElementos(); i++) {
             Medico medico = (Medico) listaMedico.obtenerElemento(i);
 
-
             if (medico.getCodMedico() == codigo) {
                 return medico;
             }
@@ -114,7 +136,7 @@ public class Sistema implements IObligatorio {
 
     public Paciente obtenerPacientePorCI(int ci) {
         for (int i = 0; i < listaPaciente.cantElementos(); i++) {
-           Paciente paciente = (Paciente) listaPaciente.obtenerElemento(i);
+            Paciente paciente = (Paciente) listaPaciente.obtenerElemento(i);
 
             if (paciente.getCi() == ci) {
                 return paciente;
@@ -134,7 +156,7 @@ public class Sistema implements IObligatorio {
         if (pacienteAux == null) {
             r.resultado = Retorno.Resultado.ERROR_1;
             return r;
-            
+
         }
 
         // Verificamos si el médico existe
@@ -147,6 +169,13 @@ public class Sistema implements IObligatorio {
             r.resultado = Retorno.Resultado.ERROR_3;
             return r;
         }
+        //agregar nuevo requerimiento de dia de consulta por el medico
+        if (!medicoAux.atiendeEnFecha(fecha)) {
+            r.resultado = Retorno.Resultado.ERROR_4; // Aquí deberías definir ERROR_4 para este propósito específico.
+            return r;
+        }
+        //
+
         // Si llegamos aquí, entonces tanto el médico como el paciente son válidos y no tienen consulta previa en la fecha dada.
         // Ahora, verificamos si el médico tiene espacio en su horario para la fecha dada.
         if (medicoAux.cantElementosParaFecha(fecha) < maxPaciente) {
@@ -154,7 +183,7 @@ public class Sistema implements IObligatorio {
             medicoAux.getListaConsultas().agregarFinal(nuevaReserva);
             r.resultado = Retorno.Resultado.OK;
         } else {
-            medicoAux.getListaDeEspera().encolar(pacienteAux);
+            medicoAux.getColaDeEspera().encolar(pacienteAux);
             r.resultado = Retorno.Resultado.OK;
         }
 

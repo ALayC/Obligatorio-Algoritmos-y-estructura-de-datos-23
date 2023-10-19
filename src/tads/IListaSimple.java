@@ -1,7 +1,7 @@
 package tads;
 
 
-public interface IListaSimple<T extends Comparable<T>> {
+public interface IListaSimple<T extends Comparable<?>> {
     
     public boolean esVacia(); 
     public void agregarInicio(T n); 

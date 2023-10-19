@@ -3,7 +3,7 @@ package tads;
 import clases.*;
 import java.time.LocalDate;
 
-public class ListaN<T extends Comparable<T>> implements IListaSimple<T> {
+public class ListaN<T extends Comparable<?>> implements IListaSimple<T> {
 
     private Nodo inicio;
     private Nodo fin;

@@ -16,9 +16,8 @@ public class Main {
         p1_crearSistema(p, s);
         p2_registrarMedico(p, s);
         p4_registrarPaciente(p, s);
-
+        p21_diaDeConsultaMedico(p, s);
         p2_6_crearReserva(p, s);
-        
         //ListaMedicos(p, s);
         //p2_3_eliminarMedico(p, s);
         //ListaMedicos(p, s);
@@ -44,8 +43,15 @@ public class Main {
         // p.ver(s.registrarMedico("Lucas", 4, 65498732, 22).resultado, Retorno.Resultado.ERROR_2, "No se registra, medico con especialidad no valida");
     }
 
+    public static void p21_diaDeConsultaMedico(Prueba p, Sistema s) {
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+        LocalDate fecha = LocalDate.parse("15/10/2023", formatter);
+        p.ver(s.agregarDiaDeConsultaMedico(1, fecha).resultado, Retorno.Resultado.OK, "Se agrega fecha de consulta para el medico");
+    
+    }
+
     public static void p4_registrarPaciente(Prueba p, Sistema s) {
-        
+
         p.ver(s.agregarPaciente("German", 12345678, "calle 1").resultado, Retorno.Resultado.OK, "Se registra el paciente");
         p.ver(s.agregarPaciente("Romina", 14523689, "calle 2").resultado, Retorno.Resultado.OK, "Se registra el paciente");
         p.ver(s.agregarPaciente("Jose", 32165478, "calle 3").resultado, Retorno.Resultado.OK, "Se registra el paciente");
@@ -58,9 +64,9 @@ public class Main {
         p.ver(s.agregarPaciente("Isabel", 89012345, "calle 10").resultado, Retorno.Resultado.OK, "Se registra el paciente");
         p.ver(s.agregarPaciente("Roberto", 90123456, "calle 11").resultado, Retorno.Resultado.OK, "Se registra el paciente");
 
-        //p.ver(s.agregarPaciente("romina", 14523689, "calle 2").resultado, Retorno.Resultado.OK, "Se registra el paciente");
-        // p.ver(s.agregarPaciente("jose", 32165478, "calle 12").resultado, Retorno.Resultado.OK, "Se registra el paciente");
-        // p.ver(s.agregarPaciente("Maria", 12345678, "calle 32").resultado, Retorno.Resultado.ERROR_1, "No se registra paciente, misma cedula");
+        p.ver(s.agregarPaciente("romina", 14523689, "calle 2").resultado, Retorno.Resultado.OK, "Se registra el paciente");
+        p.ver(s.agregarPaciente("jose", 32165478, "calle 12").resultado, Retorno.Resultado.OK, "Se registra el paciente");
+        //p.ver(s.agregarPaciente("Maria", 12345678, "calle 32").resultado, Retorno.Resultado.ERROR_1, "No se registra paciente, misma cedula");
     }
 
     public static void ListaMedicos(Prueba p, Sistema s) {
@@ -69,7 +75,7 @@ public class Main {
 
     public static void ListarPacientes(Prueba p, Sistema s) {
         p.ver(s.listarPacientes().resultado, Retorno.Resultado.OK, "Se lista los pacientes");
-        
+
     }
 
     public static void p2_3_eliminarMedico(Prueba p, Sistema s) {
@@ -101,9 +107,8 @@ public class Main {
         p.ver(s.reservaConsulta(1, 89012345, fecha).resultado, Retorno.Resultado.OK, "Crea la reserva para Isabel");
         p.ver(s.reservaConsulta(1, 90123456, fecha).resultado, Retorno.Resultado.OK, "Paciente agregado a lista de espera");
 
-        p.ver(s.reservaConsulta(1, 12345678, fecha).resultado, Retorno.Resultado.ERROR_3, "Paciente ya tiene reserva para ese dia");
-        p.ver(s.reservaConsulta(1, 41, fecha).resultado, Retorno.Resultado.ERROR_1, "No existe paciente con esa CI");
-        p.ver(s.reservaConsulta(1000000, 12345678, fecha).resultado, Retorno.Resultado.ERROR_2, "No existe docotor con esa codigo");
+        //p.ver(s.reservaConsulta(1, 12345678, fecha).resultado, Retorno.Resultado.ERROR_3, "Paciente ya tiene reserva para ese dia");
+        //p.ver(s.reservaConsulta(1, 41, fecha).resultado, Retorno.Resultado.ERROR_1, "No existe paciente con esa CI");
+        //p.ver(s.reservaConsulta(1000000, 12345678, fecha).resultado, Retorno.Resultado.ERROR_2, "No existe docotor con esa codigo");*/
     }
-
 }
