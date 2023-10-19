@@ -51,7 +51,7 @@ public class Sistema implements IObligatorio {
     @Override
     public Retorno eliminarMedico(int codMedico) {
         Retorno r = new Retorno(Retorno.Resultado.NO_IMPLEMENTADA);
-        Medico medicoAEliminar = new Medico("", codMedico, 0, 0); // Creamos un objeto médico 'dummy' solo para la comparación basada en codMedico.
+        Medico medicoAEliminar = new Medico("", codMedico, 0, 0);
 
         if (listaMedico.existeElemento(medicoAEliminar)) {
             listaMedico.eliminarElemento(medicoAEliminar);
@@ -79,9 +79,9 @@ public class Sistema implements IObligatorio {
     }
 
     @Override
-    public Retorno eliminarPaciente(int CI) {
+    public Retorno eliminarPaciente(int ci) {
                 Retorno r = new Retorno(Retorno.Resultado.NO_IMPLEMENTADA);
-        Paciente pacienteAEliminar = new Paciente("", CI,""); 
+        Paciente pacienteAEliminar = new Paciente("", ci,""); 
 
         if (listaPaciente.existeElemento(pacienteAEliminar)) {
             listaPaciente.eliminarElemento(pacienteAEliminar);

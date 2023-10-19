@@ -9,15 +9,15 @@ public interface IObligatorio {
     **************** REGISTROS **************************************
     */
     
-    //pre:      post:
+    //pre: que max sea valido (entre 0 y el tope)    post: se crea sistema correctamente
     public Retorno crearSistemaDeAutogestion(int maxPacientesporMedico);
-     //pre:      post:
+     //pre:  no existencia de un medico con el mismo codMedico, especialidad valida      post:registro correcto del medico
     public Retorno registrarMedico(String nombre,int codMedico,int tel, int especialidad); 
-     //pre:      post:
+     //pre: existe un medico con ese codigo. El medico no podrá consultas en espera      post: se elimina el medico con el codigo indicado
     public  Retorno eliminarMedico(int codMedico); 
-     //pre:      post:
+     //pre: no existe un paciente con esa CI      post: se registra correctamente el paciente en el sistema
     public Retorno agregarPaciente(String nombre, int CI, String direccion); 
-     //pre:      post:
+     //pre: debe estar registrada la CI en el sistema. El paciente no debe tener ninguna consulta agendada       post: elimina el paciente del sistema
     public Retorno eliminarPaciente(int CI); 
 
      /*
@@ -40,9 +40,9 @@ public interface IObligatorio {
     **************** LISTADO Y REPORTES **************************************
     */
     
-    //pre:      post:
+    //pre:       post: se listan los medicos ordenados alfabeticamente
     public Retorno listarMédicos(); 
-    //pre:      post:
+    //pre:      post: listar paciente en orden de registro
     public Retorno listarPacientes();     
     //pre:      post:
     public Retorno listarConsultas(int codMedico); 
