@@ -1,19 +1,21 @@
 package clases;
 
-import java.util.Date;
+import java.time.LocalDate;
+
 
 public class Reserva implements Comparable<Reserva>{
 
     private int codMedico;
     private int ciPaciente;
-    private Date fecha;
+    private LocalDate fecha;
     private  int id =0;
     private static int contadorId=0;
+    private String estado ="En espera";
     public Reserva(){
         id=++contadorId;
     }
 
-    public Reserva (int elCodigo, int laCedula, Date laFecha){
+    public Reserva (int elCodigo, int laCedula, LocalDate laFecha){
         
         this.setCodMedico(elCodigo);
         this.setCiPaciente(laCedula);
@@ -50,14 +52,14 @@ public class Reserva implements Comparable<Reserva>{
     /**
      * @return the fecha
      */
-    public Date getFecha() {
+    public LocalDate getFecha() {
         return fecha;
     }
 
     /**
      * @param fecha the fecha to set
      */
-    public void setFecha(Date fecha) {
+    public void setFecha(LocalDate fecha) {
         this.fecha = fecha;
     }
 
@@ -93,6 +95,20 @@ public class Reserva implements Comparable<Reserva>{
     public int compareTo(Reserva o) {
             return Integer.compare(this.ciPaciente, o.ciPaciente);
 
+    }
+
+    /**
+     * @return the estado
+     */
+    public String getEstado() {
+        return estado;
+    }
+
+    /**
+     * @param estado the estado to set
+     */
+    public void setEstado(String estado) {
+        this.estado = estado;
     }
     
     

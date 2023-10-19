@@ -1,5 +1,6 @@
 package sistemaAutogestion;
 
+import java.time.LocalDate;
 import java.util.Date;
 
 
@@ -25,7 +26,7 @@ public interface IObligatorio {
     */
       
     //pre:      post:
-    public Retorno reservaConsulta(int codMedico, int ciPaciente, Date fecha);
+    public Retorno reservaConsulta(int codMedico, int ciPaciente, LocalDate fecha);
     //pre:      post:
     public Retorno cancelarReserva(int codMedico, int ciPaciente); 
     //pre:      post:
