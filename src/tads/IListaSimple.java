@@ -12,7 +12,7 @@ public interface IListaSimple<T extends Comparable<T>> {
     public void mostrar();
     public void borrarElemento(T n);
     public int cantElementos();
-    public Nodo obtenerElemento(T n);
+    public T obtenerElemento(int posicion);
     public void agregarOrdenado(T n);
     public boolean existeElemento(T n);
     public void eliminarElemento(T n);

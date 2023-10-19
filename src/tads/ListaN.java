@@ -1,6 +1,7 @@
 package tads;
 
 import clases.*;
+import java.time.LocalDate;
 
 public class ListaN<T extends Comparable<T>> implements IListaSimple<T> {
 
@@ -10,6 +11,19 @@ public class ListaN<T extends Comparable<T>> implements IListaSimple<T> {
 
     public ListaN() {
         inicio = null;
+    }
+
+    public T obtenerElemento(int posicion) {
+        if (posicion < 0 || posicion >= cantidad) {
+            return null;  // fuera de los límites
+        }
+
+        Nodo aux = inicio;
+        for (int i = 0; i < posicion; i++) {
+            aux = aux.getSiguiente();
+        }
+
+        return (T) aux.getDato();
     }
 
     @Override
@@ -58,7 +72,7 @@ public class ListaN<T extends Comparable<T>> implements IListaSimple<T> {
             aux.setSiguiente(nuevo);
             fin = nuevo;
             cantidad++;
-           
+
         }
     }
 
@@ -121,7 +135,7 @@ public class ListaN<T extends Comparable<T>> implements IListaSimple<T> {
     @Override
     public void borrarElemento(T n) {
         if (!esVacia()) {
-            
+
         }
 
     }
@@ -132,61 +146,51 @@ public class ListaN<T extends Comparable<T>> implements IListaSimple<T> {
     }
 
     @Override
-    public Nodo obtenerElemento(T n) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
-    }
-
-    @Override
     public void agregarOrdenado(T n) {
-         if(esVacia() || inicio.getDato().compareTo(n) >= 0){
+        if (esVacia() || inicio.getDato().compareTo(n) >= 0) {
             this.agregarInicio(n);
-        }
-        else{
-        
+        } else {
+
             Nodo aux = inicio;
-            
-            while(aux.getSiguiente()!=null && aux.getSiguiente().getDato().compareTo(n) < 0){
+
+            while (aux.getSiguiente() != null && aux.getSiguiente().getDato().compareTo(n) < 0) {
                 aux = aux.getSiguiente();
             }
-            
-            if(aux.getSiguiente() == null){
+
+            if (aux.getSiguiente() == null) {
                 this.agregarFinal(n);
-            }
-            else{
-            
+            } else {
+
                 Nodo nuevo = new Nodo(n);
                 nuevo.setSiguiente(aux.getSiguiente());
                 aux.setSiguiente(nuevo);
                 cantidad++;
 
             }
-        
-        }
-        
-    }
 
-   
-    
+        }
+
+    }
 
     @Override
     public boolean existeElemento(T n) {
-        
+
         boolean existe = false;
-        Nodo aux=inicio;
-        
-        while( aux!=null && !existe ){
-            if (aux.getDato().equals(n)){
-                existe=true;
+        Nodo aux = inicio;
+
+        while (aux != null && !existe) {
+            if (aux.getDato().equals(n)) {
+                existe = true;
             }
-                aux=aux.getSiguiente();
+            aux = aux.getSiguiente();
         }
         return existe;
     }
 
     @Override
     public void eliminarElemento(T n) {
-    
-     if (!esVacia()) {
+
+        if (!esVacia()) {
             if (inicio.getDato().equals(n)) {
                 this.borrarInicio();
             } else {
@@ -196,14 +200,14 @@ public class ListaN<T extends Comparable<T>> implements IListaSimple<T> {
                 while (aux.getSiguiente() != null && !aux.getSiguiente().getDato().equals(n)) {
                     aux = aux.getSiguiente();
                 }
-                
-                if(aux.getSiguiente()!=null){ //Encontre el elemento
-                    
+
+                if (aux.getSiguiente() != null) { //Encontre el elemento
+
                     Nodo aBorrar = aux.getSiguiente();
                     aux.setSiguiente(aBorrar.getSiguiente());
                     aBorrar.setSiguiente(null);
                     cantidad--;
-                    
+
                 }
 
             }
@@ -211,7 +215,5 @@ public class ListaN<T extends Comparable<T>> implements IListaSimple<T> {
         }
 
     }
-    
-    
 
 }
