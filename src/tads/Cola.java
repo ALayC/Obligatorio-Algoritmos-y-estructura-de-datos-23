@@ -62,5 +62,14 @@ public class Cola<T extends Comparable<T>> implements ICola<T>  {
     public int cantidadNodos() {
         return cantidad;
     }
+    
+    public void mostrar() {
+    Nodo<T> aux = primero;
 
+    while (aux != null) {
+        System.out.print(aux.getDato() + " ");
+        aux = aux.getSiguiente();
+    }
+    System.out.println();  // Para añadir un salto de línea al final
+}
 }

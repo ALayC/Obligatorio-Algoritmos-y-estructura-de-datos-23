@@ -18,7 +18,9 @@ public class Main {
         p4_registrarPaciente(p, s);
         p21_diaDeConsultaMedico(p, s);
         p2_6_crearReserva(p, s);
+        p3_4ListarPacientesEnEspera(p, s);
         p2_7_cancelarReserva(p, s);
+        p3_4ListarPacientesEnEspera(p, s);
         //ListaMedicos(p, s);
         //p2_3_eliminarMedico(p, s);
         //ListaMedicos(p, s);
@@ -48,7 +50,7 @@ public class Main {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
         LocalDate fecha = LocalDate.parse("15/10/2023", formatter);
         p.ver(s.agregarDiaDeConsultaMedico(1, fecha).resultado, Retorno.Resultado.OK, "Se agrega fecha de consulta para el medico");
-    
+
     }
 
     public static void p4_registrarPaciente(Prueba p, Sistema s) {
@@ -112,8 +114,16 @@ public class Main {
         //p.ver(s.reservaConsulta(1, 41, fecha).resultado, Retorno.Resultado.ERROR_1, "No existe paciente con esa CI");
         //p.ver(s.reservaConsulta(1000000, 12345678, fecha).resultado, Retorno.Resultado.ERROR_2, "No existe docotor con esa codigo");*/
     }
-        public static void p2_7_cancelarReserva(Prueba p, Sistema s) {
-        
-            p.ver(s.cancelarReserva(1, 12345678).resultado, Retorno.Resultado.OK, "Reserva eliminada");
-        }
+
+    public static void p2_7_cancelarReserva(Prueba p, Sistema s) {
+
+        p.ver(s.cancelarReserva(1, 12345678).resultado, Retorno.Resultado.OK, "Reserva eliminada");
+    }
+
+    public static void p3_4ListarPacientesEnEspera(Prueba p, Sistema s) {
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+        LocalDate fecha = LocalDate.parse("15/10/2023", formatter);
+        p.ver(s.listarPacientesEnEspera(1, fecha).resultado, Retorno.Resultado.OK, "Se lista los pacientes en espera");
+
+    }
 }

@@ -272,12 +272,19 @@ public class Sistema implements IObligatorio {
 
     @Override
     public Retorno listarConsultas(int codMédico) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        Medico medicoAux = obtenerMedicoPorCodigo(codMédico);
+        medicoAux.getListaConsultas().mostrar();
+        Retorno r = new Retorno(Retorno.Resultado.OK);
+        return r;
     }
 
     @Override
-    public Retorno listarPacientesEnEspera(String codMédico, Date fecha) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public Retorno listarPacientesEnEspera(int codMédico, LocalDate fecha) {
+
+        Medico medicoAux = obtenerMedicoPorCodigo(codMédico);
+        medicoAux.getColaDeEspera().mostrar();
+        Retorno r = new Retorno(Retorno.Resultado.OK);
+        return r;
     }
 
     @Override
