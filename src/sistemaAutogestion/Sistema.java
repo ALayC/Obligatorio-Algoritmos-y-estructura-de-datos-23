@@ -145,6 +145,16 @@ public class Sistema implements IObligatorio {
         return null;
     }
 
+    public Reserva obtenerReserva(int ci, int codMed) {
+        for (int i = 0; i < listaReserva.cantElementos(); i++) {
+            Reserva reserva = (Reserva) listaReserva.obtenerElemento(i);
+            if (reserva.getCiPaciente() == ci && reserva.getCodMedico() == codMed) {
+                return reserva;
+            }
+        }
+        return null;
+    }
+
     @Override
     public Retorno reservaConsulta(int codMedico, int ciPaciente, LocalDate fecha) {
         //confirmar si esta bien el formato de la fecha
@@ -181,6 +191,7 @@ public class Sistema implements IObligatorio {
         if (medicoAux.cantElementosParaFecha(fecha) < maxPaciente) {
             Reserva nuevaReserva = new Reserva(codMedico, ciPaciente, fecha);
             medicoAux.getListaConsultas().agregarFinal(nuevaReserva);
+             listaReserva.agregarFinal(nuevaReserva);
             r.resultado = Retorno.Resultado.OK;
         } else {
             medicoAux.getColaDeEspera().encolar(pacienteAux);
@@ -192,7 +203,33 @@ public class Sistema implements IObligatorio {
 
     @Override
     public Retorno cancelarReserva(int codMedico, int ciPaciente) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        Retorno r = new Retorno(Retorno.Resultado.NO_IMPLEMENTADA);
+        Paciente pacienteAux = obtenerPacientePorCI(ciPaciente);
+        Medico medicoAux = obtenerMedicoPorCodigo(codMedico);
+        
+        if (pacienteAux == null) {
+            r.resultado = Retorno.Resultado.ERROR_1;
+            return r;
+        }
+        if (medicoAux == null) {
+            r.resultado = Retorno.Resultado.ERROR_2;
+            return r;
+        }
+        Reserva reserva = obtenerReserva(ciPaciente, codMedico);
+        // ERROR 3: El paciente no ha hecho una reserva con ese médico o la reserva está cerrada
+        if (reserva == null || reserva.estado.equals(Reserva.EstadoReserva.CERRADA)) {
+            r.resultado = Retorno.Resultado.ERROR_3;
+            return r;
+        }
+        // La reserva noes "pendiente"
+        if (!reserva.estado.equals(Reserva.EstadoReserva.PENDIENTE)) {
+            r.resultado = Retorno.Resultado.ERROR_4;
+            return r;
+        }
+        // aca se puede cancelar la reserva
+        listaReserva.borrarElemento(reserva);
+        r.resultado = Retorno.Resultado.OK;
+        return r; 
     }
 
     @Override

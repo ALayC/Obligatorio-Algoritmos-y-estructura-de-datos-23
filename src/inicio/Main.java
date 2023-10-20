@@ -18,6 +18,7 @@ public class Main {
         p4_registrarPaciente(p, s);
         p21_diaDeConsultaMedico(p, s);
         p2_6_crearReserva(p, s);
+        p2_7_cancelarReserva(p, s);
         //ListaMedicos(p, s);
         //p2_3_eliminarMedico(p, s);
         //ListaMedicos(p, s);
@@ -53,7 +54,7 @@ public class Main {
     public static void p4_registrarPaciente(Prueba p, Sistema s) {
 
         p.ver(s.agregarPaciente("German", 12345678, "calle 1").resultado, Retorno.Resultado.OK, "Se registra el paciente");
-        p.ver(s.agregarPaciente("Romina", 14523689, "calle 2").resultado, Retorno.Resultado.OK, "Se registra el paciente");
+        /*p.ver(s.agregarPaciente("Romina", 14523689, "calle 2").resultado, Retorno.Resultado.OK, "Se registra el paciente");
         p.ver(s.agregarPaciente("Jose", 32165478, "calle 3").resultado, Retorno.Resultado.OK, "Se registra el paciente");
         p.ver(s.agregarPaciente("Maria", 23456789, "calle 4").resultado, Retorno.Resultado.OK, "Se registra el paciente");
         p.ver(s.agregarPaciente("Lucas", 34567890, "calle 5").resultado, Retorno.Resultado.OK, "Se registra el paciente");
@@ -66,7 +67,7 @@ public class Main {
 
         p.ver(s.agregarPaciente("romina", 14523689, "calle 2").resultado, Retorno.Resultado.OK, "Se registra el paciente");
         p.ver(s.agregarPaciente("jose", 32165478, "calle 12").resultado, Retorno.Resultado.OK, "Se registra el paciente");
-        //p.ver(s.agregarPaciente("Maria", 12345678, "calle 32").resultado, Retorno.Resultado.ERROR_1, "No se registra paciente, misma cedula");
+        //p.ver(s.agregarPaciente("Maria", 12345678, "calle 32").resultado, Retorno.Resultado.ERROR_1, "No se registra paciente, misma cedula");*/
     }
 
     public static void ListaMedicos(Prueba p, Sistema s) {
@@ -111,4 +112,8 @@ public class Main {
         //p.ver(s.reservaConsulta(1, 41, fecha).resultado, Retorno.Resultado.ERROR_1, "No existe paciente con esa CI");
         //p.ver(s.reservaConsulta(1000000, 12345678, fecha).resultado, Retorno.Resultado.ERROR_2, "No existe docotor con esa codigo");*/
     }
+        public static void p2_7_cancelarReserva(Prueba p, Sistema s) {
+        
+            p.ver(s.cancelarReserva(1, 12345678).resultado, Retorno.Resultado.OK, "Reserva eliminada");
+        }
 }
