@@ -191,7 +191,7 @@ public class Sistema implements IObligatorio {
         if (medicoAux.cantElementosParaFecha(fecha) < maxPaciente) {
             Reserva nuevaReserva = new Reserva(codMedico, ciPaciente, fecha);
             medicoAux.getListaConsultas().agregarFinal(nuevaReserva);
-             listaReserva.agregarFinal(nuevaReserva);
+            listaReserva.agregarFinal(nuevaReserva);
             r.resultado = Retorno.Resultado.OK;
         } else {
             medicoAux.getColaDeEspera().encolar(pacienteAux);
@@ -206,7 +206,7 @@ public class Sistema implements IObligatorio {
         Retorno r = new Retorno(Retorno.Resultado.NO_IMPLEMENTADA);
         Paciente pacienteAux = obtenerPacientePorCI(ciPaciente);
         Medico medicoAux = obtenerMedicoPorCodigo(codMedico);
-        
+
         if (pacienteAux == null) {
             r.resultado = Retorno.Resultado.ERROR_1;
             return r;
@@ -216,20 +216,27 @@ public class Sistema implements IObligatorio {
             return r;
         }
         Reserva reserva = obtenerReserva(ciPaciente, codMedico);
-        // ERROR 3: El paciente no ha hecho una reserva con ese médico o la reserva está cerrada
         if (reserva == null || reserva.estado.equals(Reserva.EstadoReserva.CERRADA)) {
             r.resultado = Retorno.Resultado.ERROR_3;
             return r;
         }
-        // La reserva noes "pendiente"
         if (!reserva.estado.equals(Reserva.EstadoReserva.PENDIENTE)) {
             r.resultado = Retorno.Resultado.ERROR_4;
             return r;
         }
+
         // aca se puede cancelar la reserva
         listaReserva.borrarElemento(reserva);
+
+        // Si hay pacientes en lista de espera, desencolamos el primero y hacemos una reserva para él
+        LocalDate fechaReservaCancelada = reserva.getFecha();
+        if (!medicoAux.getColaDeEspera().isEmpty()) {
+            Paciente pacienteEnEspera = medicoAux.getColaDeEspera().desencolar();
+            reservaConsulta(medicoAux.getCodMedico(), pacienteEnEspera.getCi(), fechaReservaCancelada);
+        }
+
         r.resultado = Retorno.Resultado.OK;
-        return r; 
+        return r;
     }
 
     @Override
