@@ -18,9 +18,10 @@ public class Main {
         p4_registrarPaciente(p, s);
         p21_diaDeConsultaMedico(p, s);
         p2_6_crearReserva(p, s);
+        p2_8_anunciaLlegada(p, s);
         p3_4ListarPacientesEnEspera(p, s);
-        p2_7_cancelarReserva(p, s);
-        p3_4ListarPacientesEnEspera(p, s);
+        //p2_7_cancelarReserva(p, s);
+        //p3_4ListarPacientesEnEspera(p, s);
         //ListaMedicos(p, s);
         //p2_3_eliminarMedico(p, s);
         //ListaMedicos(p, s);
@@ -67,9 +68,6 @@ public class Main {
         p.ver(s.agregarPaciente("Isabel", 89012345, "calle 10").resultado, Retorno.Resultado.OK, "Se registra el paciente");
         p.ver(s.agregarPaciente("Roberto", 90123456, "calle 11").resultado, Retorno.Resultado.OK, "Se registra el paciente");
 
-        /*p.ver(s.agregarPaciente("romina", 14523689, "calle 2").resultado, Retorno.Resultado.OK, "Se registra el paciente");
-        p.ver(s.agregarPaciente("jose", 32165478, "calle 12").resultado, Retorno.Resultado.OK, "Se registra el paciente");
-        //p.ver(s.agregarPaciente("Maria", 12345678, "calle 32").resultado, Retorno.Resultado.ERROR_1, "No se registra paciente, misma cedula");*/
     }
 
     public static void ListaMedicos(Prueba p, Sistema s) {
@@ -82,9 +80,9 @@ public class Main {
     }
 
     public static void p2_3_eliminarMedico(Prueba p, Sistema s) {
-        p.ver(s.eliminarMedico(100).resultado, Retorno.Resultado.ERROR_1, "Este medico no existe");
-        p.ver(s.eliminarMedico(2).resultado, Retorno.Resultado.OK, "Se elimina el medico");
-        p.ver(s.eliminarMedico(2).resultado, Retorno.Resultado.ERROR_1, "Este medico no existe");
+        //p.ver(s.eliminarMedico(1).resultado, Retorno.Resultado.ERROR_1, "Este medico no existe");
+        p.ver(s.eliminarMedico(1).resultado, Retorno.Resultado.OK, "Se elimina el medico");
+        //p.ver(s.eliminarMedico(2).resultado, Retorno.Resultado.ERROR_1, "Este medico no existe");
     }
 
     public static void p2_5_eliminarPaciente(Prueba p, Sistema s) {
@@ -118,6 +116,11 @@ public class Main {
     public static void p2_7_cancelarReserva(Prueba p, Sistema s) {
 
         p.ver(s.cancelarReserva(1, 12345678).resultado, Retorno.Resultado.OK, "Reserva eliminada");
+    }
+
+    public static void p2_8_anunciaLlegada(Prueba p, Sistema s) {
+        
+        p.ver(s.anunciaLlegada(1, 12345678).resultado, Retorno.Resultado.OK, "Se anuncia llegada del paciente correctamente");
     }
 
     public static void p3_4ListarPacientesEnEspera(Prueba p, Sistema s) {

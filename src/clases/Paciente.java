@@ -1,19 +1,34 @@
 package clases;
 
+import tads.ListaN;
+import tads.*;
+import java.time.LocalDate;
+
 public class Paciente implements Comparable<Paciente> {
 
     private String nombre;
     private int ci;
     private String direccion;
+    private ListaN HistorialMedico;
 
     public Paciente(String elNombre, int laCi, String laDirec) {
         this.setNombre(elNombre);
         this.setCi(laCi);
         this.setDireccion(laDirec);
+        this.HistorialMedico = new ListaN();
     }
 
+        public ListaN getHistorialMedico() {
+        return HistorialMedico;
+    }
 
-
+    /**
+     * @param listaConsultas the listaConsultas to set
+     */
+    public void setListaHistorialMedico(ListaN HistorialMedico) {
+        this.HistorialMedico = HistorialMedico;
+    }
+    
     /**
      * @return the nombre
      */

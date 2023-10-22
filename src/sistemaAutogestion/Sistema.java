@@ -49,7 +49,7 @@ public class Sistema implements IObligatorio {
 
         // Si el médico ya atiende en esa fecha
         if (medicoAux.atiendeEnFecha(fecha)) {
-            r.resultado = Retorno.Resultado.ERROR_2;  // Aquí, ERROR_2 podría significar "El médico ya atiende en esa fecha"
+            r.resultado = Retorno.Resultado.ERROR_2;
             return r;
         }
 
@@ -179,9 +179,9 @@ public class Sistema implements IObligatorio {
             r.resultado = Retorno.Resultado.ERROR_3;
             return r;
         }
-        //agregar nuevo requerimiento de dia de consulta por el medico
+
         if (!medicoAux.atiendeEnFecha(fecha)) {
-            r.resultado = Retorno.Resultado.ERROR_4; // Aquí deberías definir ERROR_4 para este propósito específico.
+            r.resultado = Retorno.Resultado.ERROR_4;
             return r;
         }
         //
@@ -240,8 +240,33 @@ public class Sistema implements IObligatorio {
     }
 
     @Override
-    public Retorno anunciaLlegada(int codMedico, int CIPaciente) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public Retorno anunciaLlegada(int codMedico, int ciPaciente) {
+
+        Retorno r = new Retorno(Retorno.Resultado.NO_IMPLEMENTADA);
+        Paciente pacienteAux = obtenerPacientePorCI(ciPaciente);
+        Medico medicoAux = obtenerMedicoPorCodigo(codMedico);
+
+        // Verificamos si el paciente existe
+        if (pacienteAux == null) {
+            r.resultado = Retorno.Resultado.ERROR_1;
+            return r;
+        }
+        // Verificamos si el médico existe
+        if (medicoAux == null) {
+            r.resultado = Retorno.Resultado.ERROR_1;
+            return r;
+        }
+        Reserva reserva = obtenerReserva(ciPaciente, codMedico);
+        // Verificamos si la reserva existe
+        if (reserva == null) {
+            r.resultado = Retorno.Resultado.ERROR_2;
+            return r;
+        } else {
+            reserva.estado = reserva.estado.EN_ESPERA;
+        }
+        r.resultado = Retorno.Resultado.OK;
+        return r;
+
     }
 
     @Override
@@ -282,9 +307,26 @@ public class Sistema implements IObligatorio {
     public Retorno listarPacientesEnEspera(int codMédico, LocalDate fecha) {
 
         Medico medicoAux = obtenerMedicoPorCodigo(codMédico);
-        medicoAux.getColaDeEspera().mostrar();
+
+        ListaN<Reserva> listaOriginal = medicoAux.getListaConsultas();//obtenemos todas las reservas para ese medico
+
+        ListaN<Reserva> listaAuxParaPacienteEnEspera = new ListaN<>();
+
+        for (int i = 0; i < listaOriginal.cantElementos(); i++) {
+            Reserva reservaActual = listaOriginal.obtenerElemento(i);
+            if (reservaActual.getEstado() == Reserva.EstadoReserva.EN_ESPERA) {
+                listaAuxParaPacienteEnEspera.agregarFinal(reservaActual);
+            }
+        }
+        listaAuxParaPacienteEnEspera.mostrar();
         Retorno r = new Retorno(Retorno.Resultado.OK);
         return r;
+        /*
+        esto lista los pacientes que estan la cola de espra cujando la lista de reservas esta llena
+        Medico medicoAux = obtenerMedicoPorCodigo(codMédico);
+        medicoAux.getColaDeEspera().mostrar();
+        Retorno r = new Retorno(Retorno.Resultado.OK);
+        return r;*/
     }
 
     @Override

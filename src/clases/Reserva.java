@@ -78,4 +78,8 @@ public class Reserva implements Comparable<Reserva> {
     public void setEstado(EstadoReserva estado) { // Modifica el tipo del parámetro
         this.estado = estado;
     }
+        @Override
+    public String toString() {
+        return "Reserva: "+ "Codigo medico:" + codMedico + "\nCodigoPaciente: " + ciPaciente + "\nFecha: " + fecha + "\n";
+    }
 }
