@@ -216,7 +216,7 @@ public class Sistema implements IObligatorio {
             return r;
         }
         Reserva reserva = obtenerReserva(ciPaciente, codMedico);
-        if (reserva == null || reserva.estado.equals(Reserva.EstadoReserva.CERRADA)) {
+        if (reserva == null || reserva.estado.equals(Reserva.EstadoReserva.TERMINADA)) {
             r.resultado = Retorno.Resultado.ERROR_3;
             return r;
         }
@@ -271,7 +271,29 @@ public class Sistema implements IObligatorio {
 
     @Override
     public Retorno terminarConsultaMedicoPaciente(int CIPaciente, int codMedico, String detalleDeConsulta) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        Retorno r = new Retorno(Retorno.Resultado.NO_IMPLEMENTADA);
+        Paciente pacienteAux = obtenerPacientePorCI(CIPaciente);
+        Medico medicoAux = obtenerMedicoPorCodigo(codMedico);
+
+        // Verificamos si el paciente existe
+        if (pacienteAux == null) {
+            r.resultado = Retorno.Resultado.ERROR_1;
+            return r;
+        }
+        // Verificamos si el médico existe
+        if (medicoAux == null) {
+            r.resultado = Retorno.Resultado.ERROR_1;
+            return r;
+        }
+        Reserva reserva = obtenerReserva(CIPaciente, codMedico);
+        if (reserva.estado.equals(Reserva.EstadoReserva.EN_ESPERA)) {
+            reserva.estado = reserva.estado.TERMINADA;
+             r.resultado = Retorno.Resultado.OK;
+            pacienteAux.getHistorialMedico().agregarFinal(detalleDeConsulta);
+            return r; 
+       } 
+
+        return r;
     }
 
     @Override

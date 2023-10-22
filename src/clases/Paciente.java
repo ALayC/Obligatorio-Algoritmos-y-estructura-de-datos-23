@@ -9,7 +9,7 @@ public class Paciente implements Comparable<Paciente> {
     private String nombre;
     private int ci;
     private String direccion;
-    private ListaN HistorialMedico;
+    public ListaN HistorialMedico;
 
     public Paciente(String elNombre, int laCi, String laDirec) {
         this.setNombre(elNombre);
@@ -25,7 +25,7 @@ public class Paciente implements Comparable<Paciente> {
     /**
      * @param listaConsultas the listaConsultas to set
      */
-    public void setListaHistorialMedico(ListaN HistorialMedico) {
+    public void setHistorialMedico(ListaN HistorialMedico) {
         this.HistorialMedico = HistorialMedico;
     }
     

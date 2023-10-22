@@ -8,7 +8,8 @@ public class Reserva implements Comparable<Reserva> {
     public enum EstadoReserva {
         PENDIENTE,
         EN_ESPERA,
-        CERRADA;
+        TERMINADA,
+        NO_ASISTIO;
     }
 
     private int codMedico;

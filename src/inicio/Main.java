@@ -19,7 +19,8 @@ public class Main {
         p21_diaDeConsultaMedico(p, s);
         p2_6_crearReserva(p, s);
         p2_8_anunciaLlegada(p, s);
-        p3_4ListarPacientesEnEspera(p, s);
+        p2_9_terminarConsultaMedicoPaciente(p, s);
+        //p3_4ListarPacientesEnEspera(p, s);
         //p2_7_cancelarReserva(p, s);
         //p3_4ListarPacientesEnEspera(p, s);
         //ListaMedicos(p, s);
@@ -122,7 +123,11 @@ public class Main {
         
         p.ver(s.anunciaLlegada(1, 12345678).resultado, Retorno.Resultado.OK, "Se anuncia llegada del paciente correctamente");
     }
-
+    
+    public static void p2_9_terminarConsultaMedicoPaciente(Prueba p, Sistema s) {
+        p.ver(s.terminarConsultaMedicoPaciente(12345678,1, "Dolor de panza").resultado, Retorno.Resultado.OK, "Se cierra la consulta y se agrega al historial medico");
+    }
+    
     public static void p3_4ListarPacientesEnEspera(Prueba p, Sistema s) {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
         LocalDate fecha = LocalDate.parse("15/10/2023", formatter);
