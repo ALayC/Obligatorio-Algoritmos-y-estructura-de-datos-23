@@ -54,7 +54,9 @@ public class Main {
     public static void p21_diaDeConsultaMedico(Prueba p, Sistema s) {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
         LocalDate fecha = LocalDate.parse("15/10/2023", formatter);
+        LocalDate fecha2 = LocalDate.parse("16/10/2023", formatter);
         p.ver(s.agregarDiaDeConsultaMedico(1, fecha).resultado, Retorno.Resultado.OK, "Se agrega fecha de consulta para el medico");
+         p.ver(s.agregarDiaDeConsultaMedico(1, fecha2).resultado, Retorno.Resultado.OK, "Se agrega fecha de consulta para el medico");
 
     }
 
@@ -90,8 +92,10 @@ public class Main {
     public static void p2_6_crearReserva(Prueba p, Sistema s) {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
         LocalDate fecha = LocalDate.parse("15/10/2023", formatter);
+        LocalDate fecha2 = LocalDate.parse("16/10/2023", formatter);
 
         p.ver(s.reservaConsulta(1, 12345678, fecha).resultado, Retorno.Resultado.OK, "Crea la reserva para German");
+                p.ver(s.reservaConsulta(1, 12345678, fecha2).resultado, Retorno.Resultado.OK, "Crea la reserva para German");
         p.ver(s.reservaConsulta(1, 14523689, fecha).resultado, Retorno.Resultado.OK, "Crea la reserva para Romina");
         p.ver(s.reservaConsulta(1, 32165478, fecha).resultado, Retorno.Resultado.OK, "Crea la reserva para Jose");
         p.ver(s.reservaConsulta(1, 23456789, fecha).resultado, Retorno.Resultado.OK, "Crea la reserva para Maria");

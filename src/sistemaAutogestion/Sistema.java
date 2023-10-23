@@ -155,16 +155,6 @@ public class Sistema implements IObligatorio {
         return null;
     }
 
-    /*public Reserva obtenerReservaPorCodMed(int codMed) {
-        for (int i = 0; i < listaReserva.cantElementos(); i++) {
-            Reserva reserva = (Reserva) listaReserva.obtenerElemento(i);
-            if (reserva.getCodMedico() == codMed) {
-                return reserva;
-            }
-        }
-        return null;
-    }
-     */
     @Override
     public Retorno reservaConsulta(int codMedico, int ciPaciente, LocalDate fecha) {
         //confirmar si esta bien el formato de la fecha
