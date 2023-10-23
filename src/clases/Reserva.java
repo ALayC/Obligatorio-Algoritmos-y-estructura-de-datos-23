@@ -1,4 +1,5 @@
 package clases;
+
 import tads.ListaN;
 import java.time.LocalDate;
 
@@ -18,6 +19,7 @@ public class Reserva implements Comparable<Reserva> {
     private int id = 0;
     private static int contadorId = 0;
     public EstadoReserva estado = EstadoReserva.PENDIENTE; // Usa el enum en lugar de String
+    public static ListaN<Reserva> todasLasReservas = new ListaN<Reserva>();
 
     public Reserva() {
         id = ++contadorId;
@@ -27,6 +29,11 @@ public class Reserva implements Comparable<Reserva> {
         this.setCodMedico(elCodigo);
         this.setCiPaciente(laCedula);
         this.setFecha(laFecha);
+        todasLasReservas.agregarFinal(this);
+    }
+
+    public static ListaN<Reserva> getTodasLasReservas() {
+        return todasLasReservas;
     }
 
     public int getCodMedico() {
@@ -79,8 +86,9 @@ public class Reserva implements Comparable<Reserva> {
     public void setEstado(EstadoReserva estado) { // Modifica el tipo del parámetro
         this.estado = estado;
     }
-        @Override
+
+    @Override
     public String toString() {
-        return "Reserva: "+ "Codigo medico:" + codMedico + "\nCodigoPaciente: " + ciPaciente + "\nFecha: " + fecha + "\n";
+        return "Reserva: " + "Codigo medico:" + codMedico + "\nCodigoPaciente: " + ciPaciente + "\nFecha: " + fecha + "\n";
     }
 }

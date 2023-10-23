@@ -6,12 +6,16 @@ import java.time.LocalDate;
 
 public class ListaN<T extends Comparable<?>> implements IListaSimple<T> {
 
-    private Nodo inicio;
+    public Nodo inicio;
     private Nodo fin;
     private int cantidad;
 
     public ListaN() {
         inicio = null;
+    }
+
+    public Nodo getInicio() {
+        return inicio;
     }
 
     public T obtenerElemento(int posicion) {

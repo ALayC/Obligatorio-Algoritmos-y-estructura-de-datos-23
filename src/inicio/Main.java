@@ -18,17 +18,20 @@ public class Main {
         p4_registrarPaciente(p, s);
         p21_diaDeConsultaMedico(p, s);
         p2_6_crearReserva(p, s);
-        p2_8_anunciaLlegada(p, s);
-        p2_9_terminarConsultaMedicoPaciente(p, s);
+        p3_5consultasPendientesPaciente(p, s);
+        //p3_3ListarConsultas(p, s);
+        //p2_10_cerrarConsulta(p, s);
+        // p2_8_anunciaLlegada(p, s);
+        // p2_9_terminarConsultaMedicoPaciente(p, s);
         //p3_4ListarPacientesEnEspera(p, s);
         //p2_7_cancelarReserva(p, s);
         //p3_4ListarPacientesEnEspera(p, s);
-        //ListaMedicos(p, s);
+        //p3_1ListaMedicos(p, s);
         //p2_3_eliminarMedico(p, s);
-        //ListaMedicos(p, s);
-        //ListarPacientes(p, s);
+        //p3_1ListaMedicos(p, s);
+        //p3_2ListarPacientes(p, s);
         //p2_5_eliminarPaciente(p,s);
-        //ListarPacientes(p, s);
+        //p3_2ListarPacientes(p, s);
         p.imprimirResultadosPrueba();
     }
 
@@ -68,15 +71,6 @@ public class Main {
         p.ver(s.agregarPaciente("Martin", 78901234, "calle 9").resultado, Retorno.Resultado.OK, "Se registra el paciente");
         p.ver(s.agregarPaciente("Isabel", 89012345, "calle 10").resultado, Retorno.Resultado.OK, "Se registra el paciente");
         p.ver(s.agregarPaciente("Roberto", 90123456, "calle 11").resultado, Retorno.Resultado.OK, "Se registra el paciente");
-
-    }
-
-    public static void ListaMedicos(Prueba p, Sistema s) {
-        p.ver(s.listarMédicos().resultado, Retorno.Resultado.OK, "Se lista los medicos");
-    }
-
-    public static void ListarPacientes(Prueba p, Sistema s) {
-        p.ver(s.listarPacientes().resultado, Retorno.Resultado.OK, "Se lista los pacientes");
 
     }
 
@@ -120,18 +114,44 @@ public class Main {
     }
 
     public static void p2_8_anunciaLlegada(Prueba p, Sistema s) {
-        
+
         p.ver(s.anunciaLlegada(1, 12345678).resultado, Retorno.Resultado.OK, "Se anuncia llegada del paciente correctamente");
     }
-    
+
     public static void p2_9_terminarConsultaMedicoPaciente(Prueba p, Sistema s) {
-        p.ver(s.terminarConsultaMedicoPaciente(12345678,1, "Dolor de panza").resultado, Retorno.Resultado.OK, "Se cierra la consulta y se agrega al historial medico");
+        p.ver(s.terminarConsultaMedicoPaciente(12345678, 1, "Dolor de panza").resultado, Retorno.Resultado.OK, "Se cierra la consulta y se agrega al historial medico");
     }
-    
+
+    public static void p2_10_cerrarConsulta(Prueba p, Sistema s) {
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+        LocalDate fecha = LocalDate.parse("15/10/2023", formatter);
+        p.ver(s.cerrarConsulta(1, fecha).resultado, Retorno.Resultado.OK, "Paciente no asiste a la consulta, se deja registro en el historial medico");
+    }
+
+    public static void p3_1ListaMedicos(Prueba p, Sistema s) {
+        p.ver(s.listarMédicos().resultado, Retorno.Resultado.OK, "Se lista los medicos");
+    }
+
+    public static void p3_2ListarPacientes(Prueba p, Sistema s) {
+        p.ver(s.listarPacientes().resultado, Retorno.Resultado.OK, "Se lista los pacientes");
+
+    }
+
+    public static void p3_3ListarConsultas(Prueba p, Sistema s) {
+        p.ver(s.listarConsultas(1).resultado, Retorno.Resultado.OK, "Se lista las consultas");
+
+    }
+
     public static void p3_4ListarPacientesEnEspera(Prueba p, Sistema s) {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
         LocalDate fecha = LocalDate.parse("15/10/2023", formatter);
         p.ver(s.listarPacientesEnEspera(1, fecha).resultado, Retorno.Resultado.OK, "Se lista los pacientes en espera");
 
     }
+    
+    public static void p3_5consultasPendientesPaciente(Prueba p, Sistema s) {
+         p.ver(s.consultasPendientesPaciente(12345678).resultado, Retorno.Resultado.OK, "Lista de reservas por paciente");
+    
+    }
+
 }

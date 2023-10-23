@@ -34,7 +34,7 @@ public interface IObligatorio {
     //pre:      post:
     public Retorno terminarConsultaMedicoPaciente(int CIPaciente, int codMedico, String detalleDeConsulta);   
     //pre:      post:
-    public Retorno cerrarConsulta(String codMédico, Date fechaConsulta); 
+    public Retorno cerrarConsulta(int codMedico, LocalDate fechaConsulta); 
     
  
       /*

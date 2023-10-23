@@ -155,6 +155,16 @@ public class Sistema implements IObligatorio {
         return null;
     }
 
+    /*public Reserva obtenerReservaPorCodMed(int codMed) {
+        for (int i = 0; i < listaReserva.cantElementos(); i++) {
+            Reserva reserva = (Reserva) listaReserva.obtenerElemento(i);
+            if (reserva.getCodMedico() == codMed) {
+                return reserva;
+            }
+        }
+        return null;
+    }
+     */
     @Override
     public Retorno reservaConsulta(int codMedico, int ciPaciente, LocalDate fecha) {
         //confirmar si esta bien el formato de la fecha
@@ -288,17 +298,54 @@ public class Sistema implements IObligatorio {
         Reserva reserva = obtenerReserva(CIPaciente, codMedico);
         if (reserva.estado.equals(Reserva.EstadoReserva.EN_ESPERA)) {
             reserva.estado = reserva.estado.TERMINADA;
-             r.resultado = Retorno.Resultado.OK;
+            r.resultado = Retorno.Resultado.OK;
             pacienteAux.getHistorialMedico().agregarFinal(detalleDeConsulta);
-            return r; 
-       } 
+            return r;
+        }
 
         return r;
     }
 
-    @Override
-    public Retorno cerrarConsulta(String codMédico, Date fechaConsulta) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    @Override //REVISAR ERROR 2 
+    public Retorno cerrarConsulta(int codMedico, LocalDate fechaConsulta) {
+        Retorno r = new Retorno(Retorno.Resultado.NO_IMPLEMENTADA);
+        Medico medicoAux = obtenerMedicoPorCodigo(codMedico);
+
+        // Verificar si el médico existe
+        if (medicoAux == null) {
+            r.resultado = Retorno.Resultado.ERROR_1;
+            return r;
+        }
+
+        boolean reservaEncontrada = false;  // Variable para identificar si se encontró alguna reserva para ese médico y fecha
+
+        for (int i = 0; i < listaReserva.cantElementos(); i++) {
+            Reserva reserva = (Reserva) listaReserva.obtenerElemento(i);
+
+            if (reserva.getCodMedico() == codMedico
+                    && reserva.getFecha().equals(fechaConsulta)
+                    && reserva.estado == Reserva.EstadoReserva.PENDIENTE) {
+
+                reserva.estado = Reserva.EstadoReserva.NO_ASISTIO;
+
+                Paciente pacienteReserva = obtenerPacientePorCI(reserva.getCiPaciente());
+
+                String entradaHistorial = "El paciente no asiste a la consulta con el medico " + codMedico
+                        + " en la fecha " + fechaConsulta;
+                pacienteReserva.getHistorialMedico().agregarFinal(entradaHistorial);
+
+                reservaEncontrada = true;  // Marcamos que se encontró una reserva
+            }
+        }
+
+        // Si no se encontró ninguna reserva que coincida con el médico y la fecha
+        if (!reservaEncontrada) {
+            r.resultado = Retorno.Resultado.ERROR_2;
+            return r;
+        }
+
+        r.resultado = Retorno.Resultado.OK;
+        return r;
     }
 
     @Override
@@ -320,9 +367,16 @@ public class Sistema implements IObligatorio {
     @Override
     public Retorno listarConsultas(int codMédico) {
         Medico medicoAux = obtenerMedicoPorCodigo(codMédico);
-        medicoAux.getListaConsultas().mostrar();
+        listarConsultasRecursivo(medicoAux.getListaConsultas().inicio);
         Retorno r = new Retorno(Retorno.Resultado.OK);
         return r;
+    }
+
+    private void listarConsultasRecursivo(Nodo nodo) {
+        if (nodo != null) {
+            System.out.print(nodo.getDato() + " ");
+            listarConsultasRecursivo(nodo.getSiguiente());
+        }
     }
 
     @Override
@@ -343,17 +397,28 @@ public class Sistema implements IObligatorio {
         listaAuxParaPacienteEnEspera.mostrar();
         Retorno r = new Retorno(Retorno.Resultado.OK);
         return r;
-        /*
-        esto lista los pacientes que estan la cola de espra cujando la lista de reservas esta llena
-        Medico medicoAux = obtenerMedicoPorCodigo(codMédico);
-        medicoAux.getColaDeEspera().mostrar();
-        Retorno r = new Retorno(Retorno.Resultado.OK);
-        return r;*/
     }
 
     @Override
     public Retorno consultasPendientesPaciente(int CIPaciente) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        ListaN<Reserva> reservasPendientes = new ListaN<>();
+        obtenerConsultasPendientes(Reserva.todasLasReservas.getInicio(), CIPaciente, reservasPendientes);
+        reservasPendientes.mostrar();
+        Retorno r = new Retorno(Retorno.Resultado.OK);
+        return r;
+    }
+
+    private void obtenerConsultasPendientes(Nodo nodoActual, int CIPaciente, ListaN<Reserva> reservasPendientes) {
+        if (nodoActual == null) {
+            return;
+        }
+
+        Reserva reservaActual = (Reserva) nodoActual.getDato();
+        if (reservaActual.getCiPaciente() == CIPaciente && reservaActual.estado == Reserva.EstadoReserva.PENDIENTE) {
+            reservasPendientes.agregarFinal(reservaActual);
+        }
+
+        obtenerConsultasPendientes(nodoActual.getSiguiente(), CIPaciente, reservasPendientes);
     }
 
     @Override
