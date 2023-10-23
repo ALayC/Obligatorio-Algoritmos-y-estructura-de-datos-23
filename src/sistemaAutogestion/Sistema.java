@@ -392,13 +392,13 @@ public class Sistema implements IObligatorio {
     @Override
     public Retorno consultasPendientesPaciente(int CIPaciente) {
         ListaN<Reserva> reservasPendientes = new ListaN<>();
-        obtenerConsultasPendientes(Reserva.todasLasReservas.getInicio(), CIPaciente, reservasPendientes);
+        consultasPendientesPaciente(Reserva.todasLasReservas.getInicio(), CIPaciente, reservasPendientes);
         reservasPendientes.mostrar();
         Retorno r = new Retorno(Retorno.Resultado.OK);
         return r;
     }
 
-    private void obtenerConsultasPendientes(Nodo nodoActual, int CIPaciente, ListaN<Reserva> reservasPendientes) {
+    private void consultasPendientesPaciente(Nodo nodoActual, int CIPaciente, ListaN<Reserva> reservasPendientes) {
         if (nodoActual == null) {
             return;
         }
@@ -408,7 +408,7 @@ public class Sistema implements IObligatorio {
             reservasPendientes.agregarFinal(reservaActual);
         }
 
-        obtenerConsultasPendientes(nodoActual.getSiguiente(), CIPaciente, reservasPendientes);
+        consultasPendientesPaciente(nodoActual.getSiguiente(), CIPaciente, reservasPendientes);
     }
 
     @Override
