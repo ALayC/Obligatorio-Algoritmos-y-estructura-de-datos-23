@@ -357,15 +357,15 @@ public class Sistema implements IObligatorio {
     @Override
     public Retorno listarConsultas(int codMédico) {
         Medico medicoAux = obtenerMedicoPorCodigo(codMédico);
-        listarConsultasRecursivo(medicoAux.getListaConsultas().inicio);
+        listarConsultas(medicoAux.getListaConsultas().inicio);
         Retorno r = new Retorno(Retorno.Resultado.OK);
         return r;
     }
 
-    private void listarConsultasRecursivo(Nodo nodo) {
+    private void listarConsultas(Nodo nodo) {
         if (nodo != null) {
             System.out.print(nodo.getDato() + " ");
-            listarConsultasRecursivo(nodo.getSiguiente());
+            listarConsultas(nodo.getSiguiente());
         }
     }
 
@@ -413,7 +413,23 @@ public class Sistema implements IObligatorio {
 
     @Override
     public Retorno historiaClínicaPaciente(int ci) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        ListaN<Reserva> reservasCerradasONoAsisitidas = new ListaN<>();
+        historiaClínicaPaciente(Reserva.todasLasReservas.getInicio(), ci, reservasCerradasONoAsisitidas);
+        reservasCerradasONoAsisitidas.mostrar();
+        Retorno r = new Retorno(Retorno.Resultado.OK);
+        return r;
+    }
+
+    private void historiaClínicaPaciente(Nodo nodoActual, int ci, ListaN<Reserva> reservasCerradasONoAsisitidas) {
+
+        if (nodoActual == null) {
+            return;
+        }
+        Reserva reservaActual = (Reserva) nodoActual.getDato();
+        if (reservaActual.getCiPaciente() == ci && (reservaActual.estado == Reserva.EstadoReserva.NO_ASISTIO || reservaActual.estado == Reserva.EstadoReserva.TERMINADA)) {
+            reservasCerradasONoAsisitidas.agregarFinal(reservaActual);
+        }
+        historiaClínicaPaciente(nodoActual.getSiguiente(), ci, reservasCerradasONoAsisitidas);
     }
 
     @Override

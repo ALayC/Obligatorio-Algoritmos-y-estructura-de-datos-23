@@ -18,11 +18,13 @@ public class Main {
         p4_registrarPaciente(p, s);
         p21_diaDeConsultaMedico(p, s);
         p2_6_crearReserva(p, s);
-        p3_5consultasPendientesPaciente(p, s);
+        //p3_5consultasPendientesPaciente(p, s);
         //p3_3ListarConsultas(p, s);
-        //p2_10_cerrarConsulta(p, s);
-        // p2_8_anunciaLlegada(p, s);
-        // p2_9_terminarConsultaMedicoPaciente(p, s);
+
+        p2_8_anunciaLlegada(p, s);
+        p2_9_terminarConsultaMedicoPaciente(p, s);
+        p2_10_cerrarConsulta(p, s);
+        p3_6historiaClínicaPaciente(p, s);
         //p3_4ListarPacientesEnEspera(p, s);
         //p2_7_cancelarReserva(p, s);
         //p3_4ListarPacientesEnEspera(p, s);
@@ -56,14 +58,14 @@ public class Main {
         LocalDate fecha = LocalDate.parse("15/10/2023", formatter);
         LocalDate fecha2 = LocalDate.parse("16/10/2023", formatter);
         p.ver(s.agregarDiaDeConsultaMedico(1, fecha).resultado, Retorno.Resultado.OK, "Se agrega fecha de consulta para el medico");
-         p.ver(s.agregarDiaDeConsultaMedico(1, fecha2).resultado, Retorno.Resultado.OK, "Se agrega fecha de consulta para el medico");
+        p.ver(s.agregarDiaDeConsultaMedico(1, fecha2).resultado, Retorno.Resultado.OK, "Se agrega fecha de consulta para el medico");
 
     }
 
     public static void p4_registrarPaciente(Prueba p, Sistema s) {
 
         p.ver(s.agregarPaciente("German", 12345678, "calle 1").resultado, Retorno.Resultado.OK, "Se registra el paciente");
-        p.ver(s.agregarPaciente("Romina", 14523689, "calle 2").resultado, Retorno.Resultado.OK, "Se registra el paciente");
+       /* p.ver(s.agregarPaciente("Romina", 14523689, "calle 2").resultado, Retorno.Resultado.OK, "Se registra el paciente");
         p.ver(s.agregarPaciente("Jose", 32165478, "calle 3").resultado, Retorno.Resultado.OK, "Se registra el paciente");
         p.ver(s.agregarPaciente("Maria", 23456789, "calle 4").resultado, Retorno.Resultado.OK, "Se registra el paciente");
         p.ver(s.agregarPaciente("Lucas", 34567890, "calle 5").resultado, Retorno.Resultado.OK, "Se registra el paciente");
@@ -73,7 +75,7 @@ public class Main {
         p.ver(s.agregarPaciente("Martin", 78901234, "calle 9").resultado, Retorno.Resultado.OK, "Se registra el paciente");
         p.ver(s.agregarPaciente("Isabel", 89012345, "calle 10").resultado, Retorno.Resultado.OK, "Se registra el paciente");
         p.ver(s.agregarPaciente("Roberto", 90123456, "calle 11").resultado, Retorno.Resultado.OK, "Se registra el paciente");
-
+*/
     }
 
     public static void p2_3_eliminarMedico(Prueba p, Sistema s) {
@@ -95,8 +97,8 @@ public class Main {
         LocalDate fecha2 = LocalDate.parse("16/10/2023", formatter);
 
         p.ver(s.reservaConsulta(1, 12345678, fecha).resultado, Retorno.Resultado.OK, "Crea la reserva para German");
-                p.ver(s.reservaConsulta(1, 12345678, fecha2).resultado, Retorno.Resultado.OK, "Crea la reserva para German");
-        p.ver(s.reservaConsulta(1, 14523689, fecha).resultado, Retorno.Resultado.OK, "Crea la reserva para Romina");
+        p.ver(s.reservaConsulta(1, 12345678, fecha2).resultado, Retorno.Resultado.OK, "Crea la reserva para German");
+        /*p.ver(s.reservaConsulta(1, 14523689, fecha).resultado, Retorno.Resultado.OK, "Crea la reserva para Romina");
         p.ver(s.reservaConsulta(1, 32165478, fecha).resultado, Retorno.Resultado.OK, "Crea la reserva para Jose");
         p.ver(s.reservaConsulta(1, 23456789, fecha).resultado, Retorno.Resultado.OK, "Crea la reserva para Maria");
         p.ver(s.reservaConsulta(1, 34567890, fecha).resultado, Retorno.Resultado.OK, "Crea la reserva para Lucas");
@@ -110,6 +112,9 @@ public class Main {
         //p.ver(s.reservaConsulta(1, 12345678, fecha).resultado, Retorno.Resultado.ERROR_3, "Paciente ya tiene reserva para ese dia");
         //p.ver(s.reservaConsulta(1, 41, fecha).resultado, Retorno.Resultado.ERROR_1, "No existe paciente con esa CI");
         //p.ver(s.reservaConsulta(1000000, 12345678, fecha).resultado, Retorno.Resultado.ERROR_2, "No existe docotor con esa codigo");*/
+        /*
+        /*
+        */
     }
 
     public static void p2_7_cancelarReserva(Prueba p, Sistema s) {
@@ -129,7 +134,9 @@ public class Main {
     public static void p2_10_cerrarConsulta(Prueba p, Sistema s) {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
         LocalDate fecha = LocalDate.parse("15/10/2023", formatter);
-        p.ver(s.cerrarConsulta(1, fecha).resultado, Retorno.Resultado.OK, "Paciente no asiste a la consulta, se deja registro en el historial medico");
+         LocalDate fecha2 = LocalDate.parse("16/10/2023", formatter);
+        //p.ver(s.cerrarConsulta(1, fecha).resultado, Retorno.Resultado.OK, "Paciente no asiste a la consulta, se deja registro en el historial medico");
+        p.ver(s.cerrarConsulta(1, fecha2).resultado, Retorno.Resultado.OK, "Paciente no asiste a la consulta, se deja registro en el historial medico");
     }
 
     public static void p3_1ListaMedicos(Prueba p, Sistema s) {
@@ -152,10 +159,15 @@ public class Main {
         p.ver(s.listarPacientesEnEspera(1, fecha).resultado, Retorno.Resultado.OK, "Se lista los pacientes en espera");
 
     }
-    
+
     public static void p3_5consultasPendientesPaciente(Prueba p, Sistema s) {
-         p.ver(s.consultasPendientesPaciente(12345678).resultado, Retorno.Resultado.OK, "Lista de reservas por paciente");
-    
+        p.ver(s.consultasPendientesPaciente(12345678).resultado, Retorno.Resultado.OK, "Lista de reservas por paciente");
+
+    }
+
+    public static void p3_6historiaClínicaPaciente(Prueba p, Sistema s) {
+        p.ver(s.historiaClínicaPaciente(12345678).resultado, Retorno.Resultado.OK, "Se lista historial del paciente para consultas temrinadas o no asistio");
+
     }
 
 }
