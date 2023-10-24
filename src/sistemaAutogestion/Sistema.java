@@ -491,18 +491,18 @@ public class Sistema implements IObligatorio {
         }
 
         // Imprimimos los encabezados para las columnas (especialidades).
-        System.out.print("Día  ");
+        System.out.printf("%3s", "Día"); // Usamos un formato de 3 caracteres para "Día"
         for (int i = 0; i < listaEspecialidades.cantElementos(); i++) {
             int codigoEspecialidad = listaEspecialidades.obtenerElemento(i);
-            System.out.print(codigoEspecialidad + " ");
+            System.out.printf("%3d", codigoEspecialidad);  // Ancho de 3 caracteres, centrado
         }
         System.out.println();
 
         // Imprimimos la matriz con encabezados para las filas (días del mes).
         for (int i = 0; i < matrizEspecialidadesXDias.length; i++) {
-            System.out.print((i + 1) + " ");
+            System.out.printf("%3d", (i + 1)); // Ajusta el día del mes a un ancho de 3 caracteres
             for (int j = 0; j < matrizEspecialidadesXDias[i].length; j++) {
-                System.out.print(matrizEspecialidadesXDias[i][j] + " ");
+                System.out.printf("%3d", matrizEspecialidadesXDias[i][j]);  // Ancho de 3 caracteres
             }
             System.out.println();
         }
@@ -512,7 +512,7 @@ public class Sistema implements IObligatorio {
         return r;
     }
 
-        // Función auxiliar para obtener el índice de un elemento en la ListaN.
+    // Función auxiliar para obtener el índice de un elemento en la ListaN.
     private int getIndiceDeEspecialidad(ListaN<Integer> lista, int especialidad) {
         // Iteramos sobre la lista buscando la especialidad.
         for (int i = 0; i < lista.cantElementos(); i++) {
