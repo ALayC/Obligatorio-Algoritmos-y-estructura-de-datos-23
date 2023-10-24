@@ -355,9 +355,18 @@ public class Sistema implements IObligatorio {
 
     @Override
     public Retorno listarConsultas(int codMédico) {
+
+        Retorno r = new Retorno(Retorno.Resultado.NO_IMPLEMENTADA);
         Medico medicoAux = obtenerMedicoPorCodigo(codMédico);
+        
+        // Verificamos si el médico existe.
+        if (medicoAux == null) {
+            r.resultado = Retorno.Resultado.ERROR_1;
+            return r; // Retornamos inmediatamente si el médico no existe.
+        }
+
         listarConsultas(medicoAux.getListaConsultas().inicio);
-        Retorno r = new Retorno(Retorno.Resultado.OK);
+        r.resultado = Retorno.Resultado.OK;
         return r;
     }
 
@@ -371,9 +380,17 @@ public class Sistema implements IObligatorio {
     @Override
     public Retorno listarPacientesEnEspera(int codMédico, LocalDate fecha) {
 
+        Retorno r = new Retorno(Retorno.Resultado.NO_IMPLEMENTADA);
+
         Medico medicoAux = obtenerMedicoPorCodigo(codMédico);
 
-        ListaN<Reserva> listaOriginal = medicoAux.getListaConsultas();//obtenemos todas las reservas para ese medico
+        // Verificamos si el médico atiende en la fecha proporcionada.
+        if (!medicoAux.atiendeEnFecha(fecha)) {
+            r.resultado = Retorno.Resultado.ERROR_1;
+            return r; // Retornamos inmediatamente si el médico no atiende en esa fecha.
+        }
+
+        ListaN<Reserva> listaOriginal = medicoAux.getListaConsultas(); // obtenemos todas las reservas para ese medico
 
         ListaN<Reserva> listaAuxParaPacienteEnEspera = new ListaN<>();
 
@@ -383,17 +400,26 @@ public class Sistema implements IObligatorio {
                 listaAuxParaPacienteEnEspera.agregarFinal(reservaActual);
             }
         }
+
         listaAuxParaPacienteEnEspera.mostrar();
-        Retorno r = new Retorno(Retorno.Resultado.OK);
+
+        r.resultado = Retorno.Resultado.OK;
         return r;
     }
 
     @Override
     public Retorno consultasPendientesPaciente(int CIPaciente) {
+        Retorno r = new Retorno(Retorno.Resultado.NO_IMPLEMENTADA);
+        // Verificar si el paciente con esa CI existe.
+        Paciente paciente = obtenerPacientePorCI(CIPaciente);
+        if (paciente == null) {
+            r.resultado = Retorno.Resultado.ERROR_1;
+            return r;
+        }
         ListaN<Reserva> reservasPendientes = new ListaN<>();
         consultasPendientesPaciente(Reserva.todasLasReservas.getInicio(), CIPaciente, reservasPendientes);
         reservasPendientes.mostrar();
-        Retorno r = new Retorno(Retorno.Resultado.OK);
+        r.resultado = Retorno.Resultado.OK;
         return r;
     }
 
@@ -412,10 +438,17 @@ public class Sistema implements IObligatorio {
 
     @Override
     public Retorno historiaClínicaPaciente(int ci) {
+        Retorno r = new Retorno(Retorno.Resultado.NO_IMPLEMENTADA);
+        // Verificar si el paciente con esa CI existe.
+        Paciente paciente = obtenerPacientePorCI(ci);
+        if (paciente == null) {
+            r.resultado = Retorno.Resultado.ERROR_1;
+            return r;
+        }
         ListaN<Reserva> reservasCerradasONoAsisitidas = new ListaN<>();
         historiaClínicaPaciente(Reserva.todasLasReservas.getInicio(), ci, reservasCerradasONoAsisitidas);
         reservasCerradasONoAsisitidas.mostrar();
-        Retorno r = new Retorno(Retorno.Resultado.OK);
+        r.resultado = Retorno.Resultado.OK;
         return r;
     }
 
@@ -433,9 +466,9 @@ public class Sistema implements IObligatorio {
 
     @Override
     public Retorno reporteDePacientesXFechaYEspecialidad(int mes, int año) {
- 
+
         Retorno r = new Retorno(Retorno.Resultado.NO_IMPLEMENTADA);
-        
+
         if (mes <= 0 || mes > 12 || año < 2020 || año > 2023) {
             r.resultado = Retorno.Resultado.ERROR_1;
             return r; // Retornamos inmediatamente si los valores no son válidos.
