@@ -433,9 +433,13 @@ public class Sistema implements IObligatorio {
 
     @Override
     public Retorno reporteDePacientesXFechaYEspecialidad(int mes, int año) {
-        // Inicializamos un objeto de retorno con el estado "NO_IMPLEMENTADA".
+ 
         Retorno r = new Retorno(Retorno.Resultado.NO_IMPLEMENTADA);
-
+        
+        if (mes <= 0 || mes > 12 || año < 2020 || año > 2023) {
+            r.resultado = Retorno.Resultado.ERROR_1;
+            return r; // Retornamos inmediatamente si los valores no son válidos.
+        }
         // Obtenemos todas las reservas.
         ListaN<Reserva> reservas = Reserva.todasLasReservas;
         ListaN<Integer> codigosMedicos = new ListaN<>();
