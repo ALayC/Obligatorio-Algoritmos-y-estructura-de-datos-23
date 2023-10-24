@@ -2,7 +2,6 @@ package sistemaAutogestion;
 
 import clases.*;
 import java.time.LocalDate;
-import java.util.Date;
 import tads.*;
 
 public class Sistema implements IObligatorio {
@@ -434,6 +433,95 @@ public class Sistema implements IObligatorio {
 
     @Override
     public Retorno reporteDePacientesXFechaYEspecialidad(int mes, int año) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        // Inicializamos un objeto de retorno con el estado "NO_IMPLEMENTADA".
+        Retorno r = new Retorno(Retorno.Resultado.NO_IMPLEMENTADA);
+
+        // Obtenemos todas las reservas.
+        ListaN<Reserva> reservas = Reserva.todasLasReservas;
+        ListaN<Integer> codigosMedicos = new ListaN<>();
+
+        // Iteramos sobre todas las reservas para recolectar códigos de médicos únicos.
+        for (int i = 0; i < reservas.cantElementos(); i++) {
+            Reserva reserva = reservas.obtenerElemento(i);
+            int codMedico = reserva.getCodMedico();
+            if (!codigosMedicos.existeElemento(codMedico)) {
+                codigosMedicos.agregarFinal(codMedico);
+            }
+        }
+
+        // Basado en los códigos de médicos, recolectamos los objetos médicos correspondientes.
+        ListaN<Medico> listaMedicos = new ListaN<>();
+        for (int i = 0; i < codigosMedicos.cantElementos(); i++) {
+            int codigoMedico = codigosMedicos.obtenerElemento(i);
+            Medico medico = obtenerMedicoPorCodigo(codigoMedico);
+            if (medico != null) {
+                listaMedicos.agregarFinal(medico);
+            }
+        }
+
+        // A partir de los médicos, recolectamos sus especialidades únicas.
+        ListaN<Integer> listaEspecialidades = new ListaN<>();
+        for (int i = 0; i < listaMedicos.cantElementos(); i++) {
+            Medico medico = listaMedicos.obtenerElemento(i);
+            int especialidad = medico.getEspecialidad();
+            if (!listaEspecialidades.existeElemento(especialidad)) {
+                listaEspecialidades.agregarFinal(especialidad);
+            }
+        }
+
+        // Configuramos el mes y año para el informe.
+        LocalDate date = LocalDate.of(año, mes, 1);
+        int daysInMonth = date.lengthOfMonth();
+
+        // Inicializamos una matriz para almacenar la cantidad de consultas por especialidad por día.
+        int[][] matrizEspecialidadesXDias = new int[daysInMonth][listaEspecialidades.cantElementos()];
+
+        // Guardamos en  la matriz los datos de las reservas.
+        for (int i = 0; i < Reserva.todasLasReservas.cantElementos(); i++) {
+            Reserva reserva = Reserva.todasLasReservas.obtenerElemento(i);
+            if (reserva.getFecha().getMonthValue() == mes
+                    && reserva.getFecha().getYear() == año
+                    && reserva.getEstado() == Reserva.EstadoReserva.TERMINADA) {
+
+                int dia = reserva.getFecha().getDayOfMonth() - 1;
+                Medico medico = obtenerMedicoPorCodigo(reserva.getCodMedico());
+                int columna = getIndiceDeEspecialidad(listaEspecialidades, medico.getEspecialidad());
+                matrizEspecialidadesXDias[dia][columna]++;
+            }
+        }
+
+        // Imprimimos los encabezados para las columnas (especialidades).
+        System.out.print("Día  ");
+        for (int i = 0; i < listaEspecialidades.cantElementos(); i++) {
+            int codigoEspecialidad = listaEspecialidades.obtenerElemento(i);
+            System.out.print(codigoEspecialidad + " ");
+        }
+        System.out.println();
+
+        // Imprimimos la matriz con encabezados para las filas (días del mes).
+        for (int i = 0; i < matrizEspecialidadesXDias.length; i++) {
+            System.out.print((i + 1) + " ");
+            for (int j = 0; j < matrizEspecialidadesXDias[i].length; j++) {
+                System.out.print(matrizEspecialidadesXDias[i][j] + " ");
+            }
+            System.out.println();
+        }
+
+        // Configuramos el resultado de retorno a "OK" y devolvemos el objeto de retorno.
+        r.resultado = Retorno.Resultado.OK;
+        return r;
     }
+
+        // Función auxiliar para obtener el índice de un elemento en la ListaN.
+    private int getIndiceDeEspecialidad(ListaN<Integer> lista, int especialidad) {
+        // Iteramos sobre la lista buscando la especialidad.
+        for (int i = 0; i < lista.cantElementos(); i++) {
+            if (lista.obtenerElemento(i).equals(especialidad)) {
+                return i;
+            }
+        }
+        // Devolvemos -1 si no encontramos la especialidad en la lista (esto no debería suceder en un escenario normal).
+        return -1;
+    }
+
 }
