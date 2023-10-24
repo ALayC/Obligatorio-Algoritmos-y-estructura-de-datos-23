@@ -449,7 +449,7 @@ public class Sistema implements IObligatorio {
             }
         }
 
-        // Basado en los códigos de médicos, recolectamos los objetos médicos correspondientes.
+        // Basado en los códigos de médicos, obtenemos los objetos médicos correspondientes.
         ListaN<Medico> listaMedicos = new ListaN<>();
         for (int i = 0; i < codigosMedicos.cantElementos(); i++) {
             int codigoMedico = codigosMedicos.obtenerElemento(i);
@@ -459,7 +459,7 @@ public class Sistema implements IObligatorio {
             }
         }
 
-        // A partir de los médicos, recolectamos sus especialidades únicas.
+        // A partir de los médicos, obtenemos sus especialidades únicas.
         ListaN<Integer> listaEspecialidades = new ListaN<>();
         for (int i = 0; i < listaMedicos.cantElementos(); i++) {
             Medico medico = listaMedicos.obtenerElemento(i);
@@ -476,51 +476,69 @@ public class Sistema implements IObligatorio {
         // Inicializamos una matriz para almacenar la cantidad de consultas por especialidad por día.
         int[][] matrizEspecialidadesXDias = new int[daysInMonth][listaEspecialidades.cantElementos()];
 
-        // Guardamos en  la matriz los datos de las reservas.
+        // Guardamos en la matriz los datos de las reservas.
         for (int i = 0; i < Reserva.todasLasReservas.cantElementos(); i++) {
+            // Obtener la reserva actual del índice i.
             Reserva reserva = Reserva.todasLasReservas.obtenerElemento(i);
+
+            // Verificar si la reserva pertenece al mes y año especificados y su estado es "TERMINADA".
             if (reserva.getFecha().getMonthValue() == mes
                     && reserva.getFecha().getYear() == año
                     && reserva.getEstado() == Reserva.EstadoReserva.TERMINADA) {
 
+                // Determinar el día del mes de la reserva y ajustar el índice para la matriz.
                 int dia = reserva.getFecha().getDayOfMonth() - 1;
+
+                // Obtener el médico asociado a la reserva.
                 Medico medico = obtenerMedicoPorCodigo(reserva.getCodMedico());
+
+                // Determinar el índice de la especialidad del médico para la matriz.
                 int columna = getIndiceDeEspecialidad(listaEspecialidades, medico.getEspecialidad());
+
+                // Incrementar el contador en la matriz para esta combinación de día y especialidad.
                 matrizEspecialidadesXDias[dia][columna]++;
             }
         }
 
-        // Imprimimos los encabezados para las columnas (especialidades).
-        System.out.printf("%3s", "Día"); // Usamos un formato de 3 caracteres para "Día"
+        // Imprimir encabezados de columnas (especialidades).
+        System.out.printf("%3s", "Dia"); // Encabezado para la columna de días.
         for (int i = 0; i < listaEspecialidades.cantElementos(); i++) {
+            // Obtener y mostrar el código de la especialidad como encabezado de columna.
             int codigoEspecialidad = listaEspecialidades.obtenerElemento(i);
-            System.out.printf("%3d", codigoEspecialidad);  // Ancho de 3 caracteres, centrado
+            System.out.printf("%3d", codigoEspecialidad);  // Ancho de 3 caracteres, centrado.
         }
         System.out.println();
 
-        // Imprimimos la matriz con encabezados para las filas (días del mes).
+        // Imprimir la matriz con encabezados para las filas (días del mes).
         for (int i = 0; i < matrizEspecialidadesXDias.length; i++) {
-            System.out.printf("%3d", (i + 1)); // Ajusta el día del mes a un ancho de 3 caracteres
+            // Mostrar el número de día como encabezado de fila.
+            System.out.printf("%3d", (i + 1)); // Ajusta el día del mes a un ancho de 3 caracteres.
+
+            // Recorrer y mostrar los valores de la matriz para el día actual.
             for (int j = 0; j < matrizEspecialidadesXDias[i].length; j++) {
-                System.out.printf("%3d", matrizEspecialidadesXDias[i][j]);  // Ancho de 3 caracteres
+                System.out.printf("%3d", matrizEspecialidadesXDias[i][j]);  // Ancho de 3 caracteres.
             }
-            System.out.println();
+            System.out.println(); // Salto de línea al finalizar la fila.
         }
 
-        // Configuramos el resultado de retorno a "OK" y devolvemos el objeto de retorno.
         r.resultado = Retorno.Resultado.OK;
         return r;
     }
 
-    // Función auxiliar para obtener el índice de un elemento en la ListaN.
     private int getIndiceDeEspecialidad(ListaN<Integer> lista, int especialidad) {
-        // Iteramos sobre la lista buscando la especialidad.
+
+        // Iterar sobre la lista buscando la especialidad.
         for (int i = 0; i < lista.cantElementos(); i++) {
+
+            // Comprobar si el elemento actual de la lista es igual a la especialidad buscada.
             if (lista.obtenerElemento(i).equals(especialidad)) {
+                // Si se encuentra la especialidad, se devuelve su índice.
                 return i;
             }
         }
-        // Devolvemos -1 si no encontramos la especialidad en la lista (esto no debería suceder en un escenario normal).
+
+        // Si no se encuentra la especialidad en la lista tras iterar por todos sus elementos, se devuelve -1.
+        // Nota: esto no debería suceder en un escenario normal, pero se incluye para manejar casos inesperados.
         return -1;
     }
 
