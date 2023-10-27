@@ -471,7 +471,7 @@ public class Sistema implements IObligatorio {
 
         if (mes <= 0 || mes > 12 || año < 2020 || año > 2023) {
             r.resultado = Retorno.Resultado.ERROR_1;
-            return r; // Retornamos inmediatamente si los valores no son válidos.
+            return r; 
         }
         // Obtenemos todas las reservas.
         ListaN<Reserva> reservas = Reserva.todasLasReservas;
@@ -564,7 +564,7 @@ public class Sistema implements IObligatorio {
 
     private int getIndiceDeEspecialidad(ListaN<Integer> lista, int especialidad) {
 
-        // Iterar sobre la lista buscando la especialidad.
+        // Itera sobre la lista buscando la especialidad.
         for (int i = 0; i < lista.cantElementos(); i++) {
 
             // Comprobar si el elemento actual de la lista es igual a la especialidad buscada.
@@ -574,8 +574,7 @@ public class Sistema implements IObligatorio {
             }
         }
 
-        // Si no se encuentra la especialidad en la lista tras iterar por todos sus elementos, se devuelve -1.
-        // Nota: esto no debería suceder en un escenario normal, pero se incluye para manejar casos inesperados.
+        // Si no se encuentra la especialidad en la lista desps de iterar por todos sus elementos devuelve -1
         return -1;
     }
 
