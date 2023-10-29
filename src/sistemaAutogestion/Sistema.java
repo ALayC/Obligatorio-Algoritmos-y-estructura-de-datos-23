@@ -285,6 +285,10 @@ public class Sistema implements IObligatorio {
             return r;
         }
         Reserva reserva = obtenerReserva(CIPaciente, codMedico);
+        if (reserva == null) {
+            r.resultado = Retorno.Resultado.ERROR_2;
+            return r;
+        }
         if (reserva.estado.equals(Reserva.EstadoReserva.EN_ESPERA)) {
             reserva.estado = reserva.estado.TERMINADA;
             r.resultado = Retorno.Resultado.OK;
@@ -306,11 +310,15 @@ public class Sistema implements IObligatorio {
             return r;
         }
 
-        boolean reservaEncontrada = false;  // Variable para identificar si se encontró alguna reserva para ese médico y fecha
-
         for (int i = 0; i < listaReserva.cantElementos(); i++) {
             Reserva reserva = (Reserva) listaReserva.obtenerElemento(i);
 
+            if (reserva.getCodMedico() == codMedico) {
+                if (!medicoAux.tieneConsultaConPacienteEnFecha(reserva.getCiPaciente(), fechaConsulta)) {
+                    r.resultado = Retorno.Resultado.ERROR_2;
+                    return r;
+                }
+            }
             if (reserva.getCodMedico() == codMedico
                     && reserva.getFecha().equals(fechaConsulta)
                     && reserva.estado == Reserva.EstadoReserva.PENDIENTE) {
@@ -322,15 +330,7 @@ public class Sistema implements IObligatorio {
                 String entradaHistorial = "El paciente no asiste a la consulta con el medico " + codMedico
                         + " en la fecha " + fechaConsulta;
                 pacienteReserva.getHistorialMedico().agregarFinal(entradaHistorial);
-
-                reservaEncontrada = true;  // Marcamos que se encontró una reserva
             }
-        }
-
-        // Si no se encontró ninguna reserva que coincida con el médico y la fecha
-        if (!reservaEncontrada) {
-            r.resultado = Retorno.Resultado.ERROR_2;
-            return r;
         }
 
         r.resultado = Retorno.Resultado.OK;
@@ -358,11 +358,11 @@ public class Sistema implements IObligatorio {
 
         Retorno r = new Retorno(Retorno.Resultado.NO_IMPLEMENTADA);
         Medico medicoAux = obtenerMedicoPorCodigo(codMédico);
-        
+
         // Verificamos si el médico existe.
         if (medicoAux == null) {
             r.resultado = Retorno.Resultado.ERROR_1;
-            return r; // Retornamos inmediatamente si el médico no existe.
+            return r;
         }
 
         listarConsultas(medicoAux.getListaConsultas().inicio);
@@ -387,11 +387,9 @@ public class Sistema implements IObligatorio {
         // Verificamos si el médico atiende en la fecha proporcionada.
         if (!medicoAux.atiendeEnFecha(fecha)) {
             r.resultado = Retorno.Resultado.ERROR_1;
-            return r; // Retornamos inmediatamente si el médico no atiende en esa fecha.
+            return r; 
         }
-
         ListaN<Reserva> listaOriginal = medicoAux.getListaConsultas(); // obtenemos todas las reservas para ese medico
-
         ListaN<Reserva> listaAuxParaPacienteEnEspera = new ListaN<>();
 
         for (int i = 0; i < listaOriginal.cantElementos(); i++) {
@@ -400,9 +398,7 @@ public class Sistema implements IObligatorio {
                 listaAuxParaPacienteEnEspera.agregarFinal(reservaActual);
             }
         }
-
         listaAuxParaPacienteEnEspera.mostrar();
-
         r.resultado = Retorno.Resultado.OK;
         return r;
     }
@@ -471,7 +467,7 @@ public class Sistema implements IObligatorio {
 
         if (mes <= 0 || mes > 12 || año < 2020 || año > 2023) {
             r.resultado = Retorno.Resultado.ERROR_1;
-            return r; 
+            return r;
         }
         // Obtenemos todas las reservas.
         ListaN<Reserva> reservas = Reserva.todasLasReservas;
@@ -563,19 +559,15 @@ public class Sistema implements IObligatorio {
     }
 
     private int getIndiceDeEspecialidad(ListaN<Integer> lista, int especialidad) {
-
         // Itera sobre la lista buscando la especialidad.
         for (int i = 0; i < lista.cantElementos(); i++) {
-
             // Comprobar si el elemento actual de la lista es igual a la especialidad buscada.
             if (lista.obtenerElemento(i).equals(especialidad)) {
                 // Si se encuentra la especialidad, se devuelve su índice.
                 return i;
             }
         }
-
         // Si no se encuentra la especialidad en la lista desps de iterar por todos sus elementos devuelve -1
         return -1;
     }
-
 }

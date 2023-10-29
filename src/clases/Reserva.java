@@ -18,7 +18,7 @@ public class Reserva implements Comparable<Reserva> {
     private LocalDate fecha;
     private int id = 0;
     private static int contadorId = 0;
-    public EstadoReserva estado = EstadoReserva.PENDIENTE; // Usa el enum en lugar de String
+    public EstadoReserva estado = EstadoReserva.PENDIENTE; 
     public static ListaN<Reserva> todasLasReservas = new ListaN<Reserva>();
 
     public Reserva() {
