@@ -83,13 +83,32 @@ public class Sistema implements IObligatorio {
         Retorno r = new Retorno(Retorno.Resultado.NO_IMPLEMENTADA);
         Medico medicoAEliminar = new Medico("", codMedico, 0, 0);
 
-        if (listaMedico.existeElemento(medicoAEliminar)) {
-            listaMedico.eliminarElemento(medicoAEliminar);
-            r.resultado = Retorno.Resultado.OK;
+        // Verifica si existen reservas para el médico a eliminar
+        Reserva reserva = obtenerReservaPorCodMed(codMedico);
+        if (reserva != null) {
+            // Si existen reservas, no se puede eliminar el médico
+            r.resultado = Retorno.Resultado.ERROR_2;
         } else {
-            r.resultado = Retorno.Resultado.ERROR_1;
+            // Si no existen reservas, se puede eliminar el médico
+            if (listaMedico.existeElemento(medicoAEliminar)) {
+                listaMedico.eliminarElemento(medicoAEliminar);
+                r.resultado = Retorno.Resultado.OK;
+            } else {
+                r.resultado = Retorno.Resultado.ERROR_1;
+            }
         }
+
         return r;
+    }
+
+    public Reserva obtenerReservaPorCodMed(int codMed) {
+        for (int i = 0; i < listaReserva.cantElementos(); i++) {
+            Reserva reserva = (Reserva) listaReserva.obtenerElemento(i);
+            if (reserva.getCodMedico() == codMed) {
+                return reserva;
+            }
+        }
+        return null;
     }
 
     @Override
@@ -387,7 +406,7 @@ public class Sistema implements IObligatorio {
         // Verificamos si el médico atiende en la fecha proporcionada.
         if (!medicoAux.atiendeEnFecha(fecha)) {
             r.resultado = Retorno.Resultado.ERROR_1;
-            return r; 
+            return r;
         }
         ListaN<Reserva> listaOriginal = medicoAux.getListaConsultas(); // obtenemos todas las reservas para ese medico
         ListaN<Reserva> listaAuxParaPacienteEnEspera = new ListaN<>();
