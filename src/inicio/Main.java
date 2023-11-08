@@ -20,10 +20,10 @@ public class Main {
         p2_6_crearReserva(p, s);
         p2_3_eliminarMedico(p, s);
         p2_5_eliminarPaciente(p, s);
-        p2_7_cancelarReserva(p, s);
+         p2_7_cancelarReserva(p, s);    
         p2_8_anunciaLlegada(p, s);
         p2_9_terminarConsultaMedicoPaciente(p, s);
-        p2_10_cerrarConsulta(p, s);
+        p2_10_cerrarConsulta(p, s);        
         p3_1ListaMedicos(p, s);
         p3_2ListarPacientes(p, s);
         p3_3ListarConsultas(p, s);
@@ -83,7 +83,7 @@ public class Main {
         p.ver(s.agregarPaciente("Roberto", 90123456, "calle 11").resultado, Retorno.Resultado.OK, "Se registra el paciente");
         p.ver(s.agregarPaciente("ELIMINAR", 45678912, "calle 13").resultado, Retorno.Resultado.OK, "Se registra el paciente");
         p.ver(s.agregarPaciente("Paciente para eliminar sin reservas", 789789789, "calle 13").resultado, Retorno.Resultado.OK, "Se registra el paciente");
-
+        p.ver(s.agregarPaciente("Paciente para cancelar reserva", 8888, "calle 13").resultado, Retorno.Resultado.OK, "Se registra el paciente");
         p.ver(s.agregarPaciente("ELIMINAR", 45678912, "calle 13").resultado, Retorno.Resultado.ERROR_1, "Este paciente ya existe");
 
     }
@@ -109,7 +109,7 @@ public class Main {
         LocalDate fecha2 = LocalDate.parse("16/10/2023", formatter);
         LocalDate fecha3 = LocalDate.parse("17/10/2023", formatter);
         p.ver(s.reservaConsulta(1, 12345678, fecha).resultado, Retorno.Resultado.OK, "Crea la reserva para German");
-        p.ver(s.reservaConsulta(1, 12345678, fecha).resultado, Retorno.Resultado.ERROR_3, "Crea la reserva para German");
+        p.ver(s.reservaConsulta(1, 12345678, fecha).resultado, Retorno.Resultado.ERROR_3, "No se crea la reserva para German");
         p.ver(s.reservaConsulta(1, 14523689, fecha).resultado, Retorno.Resultado.OK, "Crea la reserva para Romina");
         p.ver(s.reservaConsulta(1, 32165478, fecha).resultado, Retorno.Resultado.OK, "Crea la reserva para Jose");
         p.ver(s.reservaConsulta(1, 23456789, fecha).resultado, Retorno.Resultado.OK, "Crea la reserva para Maria");
@@ -130,14 +130,18 @@ public class Main {
         p.ver(s.reservaConsulta(1, 12345678, fecha).resultado, Retorno.Resultado.ERROR_3, "Paciente ya tiene reserva para ese dia");
         p.ver(s.reservaConsulta(1, 41, fecha).resultado, Retorno.Resultado.ERROR_1, "No existe paciente con esa CI");
         p.ver(s.reservaConsulta(1000000, 12345678, fecha).resultado, Retorno.Resultado.ERROR_2, "No existe docotor con esa codigo");
-        /*
-        /*
-         */
     }
 
     public static void p2_7_cancelarReserva(Prueba p, Sistema s) {
 
         p.ver(s.cancelarReserva(1, 12345678).resultado, Retorno.Resultado.OK, "Reserva eliminada");
+        p.ver(s.cancelarReserva(1, 0).resultado, Retorno.Resultado.ERROR_1, "No existe paciente con esa CI");
+        p.ver(s.cancelarReserva(1000000, 12345678).resultado, Retorno.Resultado.ERROR_2, "No existe docotor con esa codigo");
+        p.ver(s.cancelarReserva(1, 8888).resultado, Retorno.Resultado.ERROR_3, "No existe reserva para ese paciente con ese doctor");
+
+        //Descomentar para probar despues de cerrar consulta
+        //p.ver(s.cancelarReserva(1, 12345678).resultado, Retorno.Resultado.ERROR_3, "Consulta ya cerrada");
+        //p.ver(s.cancelarReserva(1, 12345678).resultado, Retorno.Resultado.ERROR_4, "Consulta ya cerrada");
     }
 
     public static void p2_8_anunciaLlegada(Prueba p, Sistema s) {
