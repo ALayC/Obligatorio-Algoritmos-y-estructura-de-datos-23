@@ -69,7 +69,6 @@ public class Main {
     }
 
     public static void p4_registrarPaciente(Prueba p, Sistema s) {
-
         p.ver(s.agregarPaciente("German", 12345678, "calle 1").resultado, Retorno.Resultado.OK, "Se registra el paciente");
         p.ver(s.agregarPaciente("Romina", 14523689, "calle 2").resultado, Retorno.Resultado.OK, "Se registra el paciente");
         p.ver(s.agregarPaciente("Jose", 32165478, "calle 3").resultado, Retorno.Resultado.OK, "Se registra el paciente");
@@ -85,7 +84,6 @@ public class Main {
         p.ver(s.agregarPaciente("Paciente para eliminar sin reservas", 789789789, "calle 13").resultado, Retorno.Resultado.OK, "Se registra el paciente");
         p.ver(s.agregarPaciente("Paciente para cancelar reserva", 8888, "calle 13").resultado, Retorno.Resultado.OK, "Se registra el paciente");
         p.ver(s.agregarPaciente("ELIMINAR", 45678912, "calle 13").resultado, Retorno.Resultado.ERROR_1, "Este paciente ya existe");
-
     }
 
     public static void p2_3_eliminarMedico(Prueba p, Sistema s) {
@@ -157,6 +155,9 @@ public class Main {
         p.ver(s.anunciaLlegada(3, 12345678).resultado, Retorno.Resultado.OK, "Se anuncia llegada del paciente correctamente");
         p.ver(s.anunciaLlegada(3, 14523689).resultado, Retorno.Resultado.OK, "Se anuncia llegada del paciente correctamente");
         p.ver(s.anunciaLlegada(3, 32165478).resultado, Retorno.Resultado.OK, "Se anuncia llegada del paciente correctamente");
+        
+        p.ver(s.anunciaLlegada(3, 45).resultado, Retorno.Resultado.ERROR_1, "No existe paciente con esa CI");
+        p.ver(s.anunciaLlegada(5, 12345678).resultado, Retorno.Resultado.ERROR_2, "No hay reservas para este paciente con este medico");
     }
 
     public static void p2_9_terminarConsultaMedicoPaciente(Prueba p, Sistema s) {
