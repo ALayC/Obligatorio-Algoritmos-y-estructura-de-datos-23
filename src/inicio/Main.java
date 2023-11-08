@@ -228,6 +228,7 @@ public class Main {
 
     public static void p3_7reporteDePacientesXFechaYEspecialidad(Prueba p, Sistema s) {
         p.ver(s.reporteDePacientesXFechaYEspecialidad(10, 2023).resultado, Retorno.Resultado.OK, "Se lista historial del paciente para consultas temrinadas o no asistio");
+        p.ver(s.reporteDePacientesXFechaYEspecialidad(-1, 2023).resultado, Retorno.Resultado.ERROR_1, "Mes <=0 y mes >12 o año < 2020 o >2023");
 
     }
 
