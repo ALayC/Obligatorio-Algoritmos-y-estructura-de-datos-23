@@ -174,6 +174,8 @@ public class Main {
         p.ver(s.terminarConsultaMedicoPaciente(32165478, 3, "Dolor de panza").resultado, Retorno.Resultado.OK, "Se cierra la consulta y se agrega al historial medico");
 
         p.ver(s.terminarConsultaMedicoPaciente(99999999, 3, "Dolor de panza").resultado, Retorno.Resultado.ERROR_1, "Esa cedula no existe");
+        //Descomentar para testear
+        // p.ver(s.terminarConsultaMedicoPaciente(14523689, 3, "Dolor de panza").resultado, Retorno.Resultado.ERROR_2, "Consulta no esta en espera");
 
     }
 
@@ -181,9 +183,13 @@ public class Main {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
         LocalDate fecha = LocalDate.parse("15/10/2023", formatter);
 
-        LocalDate fecha2 = LocalDate.parse("16/10/2023", formatter);
+        LocalDate fecha2 = LocalDate.parse("30/10/2023", formatter);
 
         p.ver(s.cerrarConsulta(1, fecha).resultado, Retorno.Resultado.OK, "Paciente no asiste a la consulta, se deja registro en el historial medico");
+        
+        p.ver(s.cerrarConsulta(90, fecha).resultado, Retorno.Resultado.ERROR_1, "Esa codigo de medico no existe");
+        p.ver(s.cerrarConsulta(1, fecha2).resultado, Retorno.Resultado.ERROR_2, "Esa medico no tiene consultas para ese dia");
+        
 
     }
 
@@ -198,6 +204,7 @@ public class Main {
 
     public static void p3_3ListarConsultas(Prueba p, Sistema s) {
         p.ver(s.listarConsultas(1).resultado, Retorno.Resultado.OK, "Se lista las consultas");
+        p.ver(s.listarConsultas(188).resultado, Retorno.Resultado.ERROR_1, "Esa codigo de medico no existe");
 
     }
 
@@ -209,12 +216,13 @@ public class Main {
     }
 
     public static void p3_5consultasPendientesPaciente(Prueba p, Sistema s) {
-        p.ver(s.consultasPendientesPaciente(12345678).resultado, Retorno.Resultado.OK, "Lista de reservas por paciente");
+        p.ver(s.consultasPendientesPaciente(12345678).resultado, Retorno.Resultado.OK, "Lista de consultas pendientes por paciente");
 
     }
 
     public static void p3_6historiaClínicaPaciente(Prueba p, Sistema s) {
         p.ver(s.historiaClínicaPaciente(12345678).resultado, Retorno.Resultado.OK, "Se lista historial del paciente para consultas temrinadas o no asistio");
+         p.ver(s.historiaClínicaPaciente(0).resultado, Retorno.Resultado.ERROR_1, "No existe paciente con esa CI");
 
     }
 
