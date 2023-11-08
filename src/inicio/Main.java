@@ -16,11 +16,10 @@ public class Main {
         p1_crearSistema(p, s);
         p2_registrarMedico(p, s);
         p21_diaDeConsultaMedico(p, s);
-        p2_3_eliminarMedico(p, s);
         p4_registrarPaciente(p, s);
-        p2_5_eliminarPaciente(p, s);
         p2_6_crearReserva(p, s);
         p2_3_eliminarMedico(p, s);
+        p2_5_eliminarPaciente(p, s);
         p2_7_cancelarReserva(p, s);
         p2_8_anunciaLlegada(p, s);
         p2_9_terminarConsultaMedicoPaciente(p, s);
@@ -51,7 +50,7 @@ public class Main {
         p.ver(s.registrarMedico("Medico para probar si elimina si hay reservas", 5, 99999999, 3).resultado, Retorno.Resultado.OK, "Se registra el medico");
 
         p.ver(s.registrarMedico("Andres", 1, 98765432, 4).resultado, Retorno.Resultado.ERROR_1, "No se registra, medico con igual codigo");
-        p.ver(s.registrarMedico("Lucas", 5, 65498732, 22).resultado, Retorno.Resultado.ERROR_2, "No se registra, medico con especialidad no valida");
+        p.ver(s.registrarMedico("Lucas", 6, 65498732, 22).resultado, Retorno.Resultado.ERROR_2, "No se registra, medico con especialidad no valida");
     }
 
     public static void p21_diaDeConsultaMedico(Prueba p, Sistema s) {
@@ -63,7 +62,7 @@ public class Main {
         p.ver(s.agregarDiaDeConsultaMedico(2, fecha2).resultado, Retorno.Resultado.OK, "Se agrega fecha de consulta para el medico");
         p.ver(s.agregarDiaDeConsultaMedico(3, fecha3).resultado, Retorno.Resultado.OK, "Se agrega fecha de consulta para el medico");
         p.ver(s.agregarDiaDeConsultaMedico(5, fecha).resultado, Retorno.Resultado.OK, "Se agrega fecha de consulta para el medico");
-        
+
         p.ver(s.agregarDiaDeConsultaMedico(9, fecha3).resultado, Retorno.Resultado.ERROR_1, "Este medico no existe");
         p.ver(s.agregarDiaDeConsultaMedico(1, fecha).resultado, Retorno.Resultado.ERROR_2, "Para ese medico ya existe esta fecha registrada");
 
@@ -83,7 +82,8 @@ public class Main {
         p.ver(s.agregarPaciente("Isabel", 89012345, "calle 10").resultado, Retorno.Resultado.OK, "Se registra el paciente");
         p.ver(s.agregarPaciente("Roberto", 90123456, "calle 11").resultado, Retorno.Resultado.OK, "Se registra el paciente");
         p.ver(s.agregarPaciente("ELIMINAR", 45678912, "calle 13").resultado, Retorno.Resultado.OK, "Se registra el paciente");
-        
+        p.ver(s.agregarPaciente("Paciente para eliminar sin reservas", 789789789, "calle 13").resultado, Retorno.Resultado.OK, "Se registra el paciente");
+
         p.ver(s.agregarPaciente("ELIMINAR", 45678912, "calle 13").resultado, Retorno.Resultado.ERROR_1, "Este paciente ya existe");
 
     }
@@ -97,7 +97,9 @@ public class Main {
     public static void p2_5_eliminarPaciente(Prueba p, Sistema s) {
         p.ver(s.eliminarPaciente(100).resultado, Retorno.Resultado.ERROR_1, "Este paciente no existe");
         p.ver(s.eliminarPaciente(45678912).resultado, Retorno.Resultado.OK, "Se elimina paciente");
+        p.ver(s.eliminarPaciente(789789789).resultado, Retorno.Resultado.OK, "Se elimina paciente");
         p.ver(s.eliminarPaciente(444444).resultado, Retorno.Resultado.ERROR_1, "Este paciente no existe");
+        p.ver(s.eliminarPaciente(12345678).resultado, Retorno.Resultado.ERROR_2, "Este tiene reservas no se puede eliminar");
 
     }
 
@@ -128,7 +130,7 @@ public class Main {
         p.ver(s.reservaConsulta(1, 12345678, fecha).resultado, Retorno.Resultado.ERROR_3, "Paciente ya tiene reserva para ese dia");
         p.ver(s.reservaConsulta(1, 41, fecha).resultado, Retorno.Resultado.ERROR_1, "No existe paciente con esa CI");
         p.ver(s.reservaConsulta(1000000, 12345678, fecha).resultado, Retorno.Resultado.ERROR_2, "No existe docotor con esa codigo");
- /*
+        /*
         /*
          */
     }
@@ -167,8 +169,6 @@ public class Main {
         p.ver(s.terminarConsultaMedicoPaciente(32165478, 3, "Dolor de panza").resultado, Retorno.Resultado.OK, "Se cierra la consulta y se agrega al historial medico");
 
         p.ver(s.terminarConsultaMedicoPaciente(99999999, 3, "Dolor de panza").resultado, Retorno.Resultado.ERROR_1, "Esa cedula no existe");
-        
-        
 
     }
 

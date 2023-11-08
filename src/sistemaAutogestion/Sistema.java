@@ -132,13 +132,32 @@ public class Sistema implements IObligatorio {
         Retorno r = new Retorno(Retorno.Resultado.NO_IMPLEMENTADA);
         Paciente pacienteAEliminar = new Paciente("", ci, "");
 
-        if (listaPaciente.existeElemento(pacienteAEliminar)) {
-            listaPaciente.eliminarElemento(pacienteAEliminar);
-            r.resultado = Retorno.Resultado.OK;
+        // Verifica si existen reservas para el paciente a eliminar
+        Reserva reserva = obtenerReservaPorCI(ci);
+        if (reserva != null) {
+            // Si existen reservas, no se puede eliminar el paciente
+            r.resultado = Retorno.Resultado.ERROR_2;
         } else {
-            r.resultado = Retorno.Resultado.ERROR_1;
+            // Si no existen reservas, se puede eliminar el paciente
+            if (listaPaciente.existeElemento(pacienteAEliminar)) {
+                listaPaciente.eliminarElemento(pacienteAEliminar);
+                r.resultado = Retorno.Resultado.OK;
+            } else {
+                r.resultado = Retorno.Resultado.ERROR_1;
+            }
         }
+
         return r;
+    }
+
+    public Reserva obtenerReservaPorCI(int ci) {
+        for (int i = 0; i < listaReserva.cantElementos(); i++) {
+            Reserva reserva = (Reserva) listaReserva.obtenerElemento(i);
+            if (reserva.getCiPaciente() == ci) {
+                return reserva;
+            }
+        }
+        return null;
     }
 
     public Medico obtenerMedicoPorCodigo(int codigo) {
